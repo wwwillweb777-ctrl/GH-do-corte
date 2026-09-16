@@ -399,7 +399,7 @@
         let db = null;
         let conversas = {};
         let usuarioAtual = null;
-        let ouvinteMensagens = null; // Guarda o ouvinte para remover depois
+        let ouvinteMensagens = null;
 
         if (typeof firebase !== 'undefined' && !firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
@@ -432,7 +432,7 @@
         }
 
         function sair() {
-            pararOuvirMensagens(); // Para de ouvir ao sair
+            pararOuvirMensagens();
             if (!confirm("Sair da área administrativa?")) return;
             document.getElementById('telaLista').classList.add('escondido');
             document.getElementById('telaChat').classList.add('escondido');
@@ -443,7 +443,7 @@
             usuarioAtual = null;
         }
 
-        // === CARREGAR LISTA DE CONVERSAS — TEMPO REAL ===
+        // === CARREGAR LISTA — TEMPO REAL ===
         function carregarConversas() {
             if (!db) {
                 document.getElementById('lista-usuarios').innerHTML = 
@@ -451,7 +451,6 @@
                 return;
             }
 
-            // Fica ouvindo a lista o tempo todo
             db.ref(CAMINHO_MSG).on("value", snapMensagens => {
                 const mensagens = snapMensagens.val() || {};
                 conversas = {};
@@ -501,7 +500,6 @@
             });
         }
 
-        // === PARAR DE OUVIR QUANDO FECHAR O CHAT ===
         function pararOuvirMensagens() {
             if (ouvinteMensagens) {
                 db.ref(CAMINHO_MSG).off("value", ouvinteMensagens);
@@ -509,7 +507,7 @@
             }
         }
 
-        // === ABRIR CHAT — TEMPO REAL ===
+        // === ABRIR CHAT — TEMPO REAL + ORDEM CORRETA ===
         function abrirChat(idUsuario) {
             if (!conversas[idUsuario]) {
                 alert("Conversa não encontrada!");
@@ -524,7 +522,6 @@
             document.getElementById('chatNomeCabecalho').textContent = usuarioAtual.nome;
             document.getElementById('chatIdCabecalho').textContent = `🆔 ${idUsuario}`;
 
-            // Ouve atualizações do chat específico
             ouvinteMensagens = db.ref(CAMINHO_MSG).on("value", snap => {
                 const todasMsg = snap.val() || {};
                 const mensagensFiltradas = [];
@@ -535,6 +532,13 @@
                         mensagensFiltradas.push({ chave, ...m });
                     }
                 }
+
+                // ✅ ORDENA PELA DATA — MAIS ANTIGA PRIMEIRO
+                mensagensFiltradas.sort((a, b) => {
+                    const dataA = new Date(a.data ? a.data.replace(/\//g, '-').replace(/(\d+)\s+(\d+)/, '$1T$2') : 0);
+                    const dataB = new Date(b.data ? b.data.replace(/\//g, '-').replace(/(\d+)\s+(\d+)/, '$1T$2') : 0);
+                    return dataA - dataB;
+                });
 
                 usuarioAtual.mensagens = mensagensFiltradas;
                 carregarMensagens();
@@ -551,6 +555,7 @@
             }
 
             usuarioAtual.mensagens.forEach(m => {
+                // Mensagem do cliente
                 conteudo.innerHTML += `
                     <div class="bolha-usuario">
                         <div class="bolha-nome">${usuarioAtual.nome}</div>
@@ -559,6 +564,7 @@
                     </div>
                 `;
 
+                // Resposta do admin — LOGO ABAIXO da mensagem do cliente
                 if (m.resposta) {
                     conteudo.innerHTML += `
                         <div class="bolha-admin">
@@ -572,11 +578,12 @@
                 }
             });
 
+            // ✅ VAI SEMPRE PRA ÚLTIMA MENSAGEM — EMBAIXO
             conteudo.scrollTop = conteudo.scrollHeight;
         }
 
         function fecharChat() {
-            pararOuvirMensagens(); // Para de ouvir quando sair do chat
+            pararOuvirMensagens();
             usuarioAtual = null;
             document.getElementById('telaChat').classList.add('escondido');
             document.getElementById('telaLista').classList.remove('escondido');
