@@ -399,6 +399,7 @@
         let db = null;
         let conversas = {};
         let usuarioAtual = null;
+        let ouvinteMensagens = null; // Guarda o ouvinte para remover depois
 
         if (typeof firebase !== 'undefined' && !firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
@@ -431,6 +432,7 @@
         }
 
         function sair() {
+            pararOuvirMensagens(); // Para de ouvir ao sair
             if (!confirm("Sair da área administrativa?")) return;
             document.getElementById('telaLista').classList.add('escondido');
             document.getElementById('telaChat').classList.add('escondido');
@@ -441,64 +443,73 @@
             usuarioAtual = null;
         }
 
-        // === CARREGAR LISTA DE CONVERSAS ===
-        async function carregarConversas() {
+        // === CARREGAR LISTA DE CONVERSAS — TEMPO REAL ===
+        function carregarConversas() {
             if (!db) {
                 document.getElementById('lista-usuarios').innerHTML = 
                     '<div class="vazio"><p>⚠️ Firebase não carregou. Atualize a página.</p></div>';
                 return;
             }
 
-            const snapMensagens = await db.ref(CAMINHO_MSG).once("value");
-            const mensagens = snapMensagens.val() || {};
-            conversas = {};
-            const container = document.getElementById('lista-usuarios');
-            container.innerHTML = '';
+            // Fica ouvindo a lista o tempo todo
+            db.ref(CAMINHO_MSG).on("value", snapMensagens => {
+                const mensagens = snapMensagens.val() || {};
+                conversas = {};
+                const container = document.getElementById('lista-usuarios');
+                container.innerHTML = '';
 
-            if (!snapMensagens.exists()) {
-                container.innerHTML = '<div class="vazio"><p>📭 Nenhuma mensagem ainda</p></div>';
-                return;
-            }
+                if (!snapMensagens.exists()) {
+                    container.innerHTML = '<div class="vazio"><p>📭 Nenhuma mensagem ainda</p></div>';
+                    return;
+                }
 
-            // Agrupa mensagens por usuário
-            const porId = {};
-            for (const chave in mensagens) {
-                const m = mensagens[chave];
-                if (!m.idRemetente) continue;
-                if (!porId[m.idRemetente]) porId[m.idRemetente] = [];
-                porId[m.idRemetente].push({ chave, ...m });
-            }
+                const porId = {};
+                for (const chave in mensagens) {
+                    const m = mensagens[chave];
+                    if (!m.idRemetente) continue;
+                    if (!porId[m.idRemetente]) porId[m.idRemetente] = [];
+                    porId[m.idRemetente].push({ chave, ...m });
+                }
 
-            for (const id in porId) {
-                const mensagensUser = porId[id];
-                const nome = mensagensUser[0]?.nomeRemetente || "Visitante";
-                const temResposta = mensagensUser.some(m => m.resposta);
+                for (const id in porId) {
+                    const mensagensUser = porId[id];
+                    const nome = mensagensUser[0]?.nomeRemetente || "Visitante";
+                    const temResposta = mensagensUser.some(m => m.resposta);
 
-                conversas[id] = {
-                    id,
-                    nome,
-                    mensagens: mensagensUser
-                };
+                    conversas[id] = {
+                        id,
+                        nome,
+                        mensagens: mensagensUser
+                    };
 
-                container.innerHTML += `
-                    <div class="bloco-pessoa">
-                        <div class="cabecalho-pessoa">${nome}</div>
-                        <div class="dados-pessoa">
-                            <div class="linha-dado etq-id">🆔 ${id}</div>
-                            <div class="status-bolinha ${temResposta ? 'respondida' : 'pendente'}">
-                                ${temResposta ? '✅ Respondida' : '⏳ Pendente'}
+                    container.innerHTML += `
+                        <div class="bloco-pessoa">
+                            <div class="cabecalho-pessoa">${nome}</div>
+                            <div class="dados-pessoa">
+                                <div class="linha-dado etq-id">🆔 ${id}</div>
+                                <div class="status-bolinha ${temResposta ? 'respondida' : 'pendente'}">
+                                    ${temResposta ? '✅ Respondida' : '⏳ Pendente'}
+                                </div>
+                            </div>
+                            <div class="botoes-pessoa">
+                                <button class="btn-dourado" onclick="abrirChat('${id}')">💬 Abrir Chat</button>
+                                <button class="btn-vermelho" onclick="apagarConversa('${id}')">🗑️ Apagar</button>
                             </div>
                         </div>
-                        <div class="botoes-pessoa">
-                            <button class="btn-dourado" onclick="abrirChat('${id}')">💬 Abrir Chat</button>
-                            <button class="btn-vermelho" onclick="apagarConversa('${id}')">🗑️ Apagar</button>
-                        </div>
-                    </div>
-                `;
+                    `;
+                }
+            });
+        }
+
+        // === PARAR DE OUVIR QUANDO FECHAR O CHAT ===
+        function pararOuvirMensagens() {
+            if (ouvinteMensagens) {
+                db.ref(CAMINHO_MSG).off("value", ouvinteMensagens);
+                ouvinteMensagens = null;
             }
         }
 
-        // === ABRIR CHAT ===
+        // === ABRIR CHAT — TEMPO REAL ===
         function abrirChat(idUsuario) {
             if (!conversas[idUsuario]) {
                 alert("Conversa não encontrada!");
@@ -513,12 +524,31 @@
             document.getElementById('chatNomeCabecalho').textContent = usuarioAtual.nome;
             document.getElementById('chatIdCabecalho').textContent = `🆔 ${idUsuario}`;
 
-            carregarMensagens();
+            // Ouve atualizações do chat específico
+            ouvinteMensagens = db.ref(CAMINHO_MSG).on("value", snap => {
+                const todasMsg = snap.val() || {};
+                const mensagensFiltradas = [];
+                
+                for (const chave in todasMsg) {
+                    const m = todasMsg[chave];
+                    if (m.idRemetente === idUsuario) {
+                        mensagensFiltradas.push({ chave, ...m });
+                    }
+                }
+
+                usuarioAtual.mensagens = mensagensFiltradas;
+                carregarMensagens();
+            });
         }
 
         function carregarMensagens() {
             const conteudo = document.getElementById('chatConteudo');
             conteudo.innerHTML = '';
+
+            if (!usuarioAtual || !usuarioAtual.mensagens.length) {
+                conteudo.innerHTML = '<p style="text-align:center; color:#999; padding:2rem;">Nenhuma mensagem 💬</p>';
+                return;
+            }
 
             usuarioAtual.mensagens.forEach(m => {
                 conteudo.innerHTML += `
@@ -546,10 +576,10 @@
         }
 
         function fecharChat() {
+            pararOuvirMensagens(); // Para de ouvir quando sair do chat
             usuarioAtual = null;
             document.getElementById('telaChat').classList.add('escondido');
             document.getElementById('telaLista').classList.remove('escondido');
-            carregarConversas();
         }
 
         async function enviarRespostaChat() {
@@ -576,9 +606,6 @@
 
             alert("✅ Mensagem enviada!");
             document.getElementById('chatResposta').value = '';
-            
-            await carregarConversas();
-            abrirChat(usuarioAtual.id);
         }
 
         async function apagarConversa(id) {
@@ -591,7 +618,6 @@
             }
             
             alert("✅ Conversa apagada!");
-            carregarConversas();
         }
 
         async function limparTodasMensagens() {
@@ -599,7 +625,6 @@
             if (!db) return;
             await db.ref(CAMINHO_MSG).remove();
             alert("✅ Todas as mensagens foram apagadas!");
-            carregarConversas();
         }
     </script>
 </body>
