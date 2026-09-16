@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabriel do Corte ✂️💈</title>
+
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
+            background-image: 
+                radial-gradient(#2a2a2a 1px, transparent 1px),
+                radial-gradient(#2a2a2a 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 1rem;
+            color: #fff;
+        }
+        .cartaz {
+            max-width: 450px;
+            margin: 0 auto;
+            background: #000;
+            border-radius: 24px;
+            border: 3px solid #d4af37;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+        }
+        .banner-topo {
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+            border-bottom-left-radius: 32px;
+            border-bottom-right-radius: 32px;
+        }
+        .banner-topo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .botao-chat-topo { text-align: center; margin: 0.8rem 0; }
+        .botao-chat-topo a {
+            display: inline-block;
+            background: linear-gradient(90deg, #d4af37, #f4d03f);
+            color: #000;
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .dourado { color: #d4af37; }
+        .conteudo-interno { padding: 1.5rem; }
+        .titulo { text-align: center; margin-bottom: 0.5rem; }
+        .titulo-principal {
+            font-size: 2.5rem;
+            color: #d4af37;
+            font-family: Georgia, serif;
+            letter-spacing: 2px;
+        }
+        .titulo-sub { font-size: 1.4rem; font-family: sans-serif; color: #ccc; font-weight: 600; }
+        .sub-titulo { text-align: center; color: #999; letter-spacing: 3px; margin: 0.5rem 0 1rem; text-transform: uppercase; }
+        .faixa-destaque {
+            background: linear-gradient(90deg, #d4af37, #f4d03f);
+            color: #000;
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            position: relative;
+            left: 50%; transform: translateX(-50%);
+            margin-bottom: 1.5rem;
+        }
+
+        /* GALERIA */
+        .galeria-titulo {
+            text-align: center;
+            margin: 1.5rem 0 1rem;
+        }
+        .galeria-titulo h3 {
+            color: #d4af37;
+            font-size: 1.6rem;
+            font-family: Georgia, serif;
+        }
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0 2rem;
+        }
+        .item-trabalho {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .item-trabalho img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid #d4af37;
+        }
+        .nome-trabalho {
+            margin-top: 0.5rem;
+            color: #d4af37;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .caixa-servicos {
+            border: 2px solid #d4af37; border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; background: #111;
+        }
+        .servico { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0; }
+        .servico-nome { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #f4d03f; font-size: 1.1rem; }
+        .preco-circulo {
+            width: 70px; height: 70px; border: 2px solid #d4af37; border-radius: 50%;
+            background: #222; display: flex; align-items: center; justify-content: center;
+            color: #f4d03f; font-weight: bold;
+        }
+        .acrescimo { font-size: 0.9rem; color: #999; margin-left: 1.8rem; margin-top: -0.3rem; }
+        .area-contato { display: flex; align-items: center; justify-content: space-between; margin: 1.5rem 0; gap: 1rem; }
+        .img-baixo {
+            width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 3px solid #d4af37; flex-shrink: 0;
+        }
+        .img-baixo img { width: 100%; height: 100%; object-fit: cover; }
+        .botao-wpp { flex: 1; }
+        .botao-wpp a {
+            display: block; background: linear-gradient(90deg, #25D366, #128C7E); color: white;
+            padding: 1rem; border-radius: 50px; font-weight: bold; text-decoration: none; text-align: center;
+        }
+        .destaques { display: flex; justify-content: space-around; text-align: center; margin: 1.5rem 0; color: #999; font-size: 0.95rem; }
+        .em-breve { border: 2px dashed #d4af37; border-radius: 16px; padding: 1.2rem; text-align: center; color: #999; margin-bottom: 1rem; }
+        .rodape { text-align: center; color: #666; font-size: 0.9rem; margin-bottom: 1rem; }
+        .botao-acesso-total { text-align: center; margin-top: 1rem; }
+        .botao-acesso-total a {
+            display: inline-block; background: linear-gradient(90deg, #d4af37, #b8860b);
+            color: #000; padding: 0.6rem 2.5rem; border-radius: 50px; font-weight: bold; text-decoration: none;
+        }
+
+        /* Caixa de Boas-Vindas */
+        .caixa-mensagem {
+            background: linear-gradient(135deg, #1f1f1f, #2a2a2a);
+            border: 2px solid #d4af37;
+            border-radius: 16px;
+            padding: 1.3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .caixa-mensagem.oculta { display: none; }
+        .mensagem-conhecida {
+            color: #f4d03f;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .nome-destaque {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        .mensagem-nova h4 {
+            color: #f4d03f;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .mensagem-nova p {
+            color: #ccc;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+        .campo-nome {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 0.6rem;
+            background: #1a1a1a;
+            color: #fff;
+            outline: none;
+        }
+        .btn-salvar-nome {
+            background: linear-gradient(90deg, #d4af37, #f4d03f);
+            color: #000;
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-salvar-nome:hover { transform: scale(1.05); }
+        .btn-depois {
+            background: transparent;
+            border: none;
+            color: #777;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 380px) {
+            .galeria { grid-template-columns: 1fr; }
+            .item-trabalho img { height: 160px; }
+            .titulo-principal { font-size: 2rem; }
+            .banner-topo { height: 260px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cartaz">
+        <div class="banner-topo">
+            <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260915-WA0037.webp" alt="Gabriel do Corte ✂️💈">
+        </div>
+        <div class="conteudo-interno">
+
+            <!-- Caixa de Boas-Vindas -->
+            <div class="caixa-mensagem" id="caixaMensagem">
+                <div id="blocoConhecida" class="mensagem-conhecida" style="display: none;">
+                    💈 Bem-vindo de volta, <span class="nome-destaque" id="nomePessoa"></span>!<br>
+                    <small>Estamos prontos para te atender ✂️</small>
+                </div>
+                <div id="blocoNova" class="mensagem-nova" style="display: none;">
+                    <h4>✨ Olá! Seja bem-vindo! ✨</h4>
+                    <p>Queremos te chamar pelo nome!<br>Como gostaria de ser chamado?</p>
+                    <input type="text" id="campoNome" class="campo-nome" placeholder="Digite seu nome aqui ✂️">
+                    <button onclick="salvarNome()" class="btn-salvar-nome">Conte-nos 💈</button>
+                    <br>
+                    <button onclick="fecharCaixa()" class="btn-depois">Talvez depois, obrigado 😊</button>
+                </div>
+            </div>
+
+            <div class="titulo">
+                <h1 class="titulo-principal">GABRIEL</h1>
+                <h2 class="titulo-sub">DO CORTE</h2>
+                <p class="sub-titulo"><span class="dourado">✂️</span> BARBEARIA & ESTILO <span class="dourado">💈</span></p>
+            </div>
+            <p class="faixa-destaque">Estilo e precisão em cada corte ✨</p>
+
+            <!-- GALERIA -->
+            <div class="galeria-titulo">
+                <h3>✨ Nossos Trabalhos ✨</h3>
+                <p class="sub-titulo">Estilo que combina com você 💈</p>
+            </div>
+            <div class="galeria">
+                <!-- Foto 1 -->
+                <div class="item-trabalho">
+                    <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260915-WA0037.webp"
+                         alt="Corte Estilo" loading="lazy">
+                    <p class="nome-trabalho">✂️ Corte Estilo</p>
+                </div>
+                <!-- Foto 2 -->
+                <div class="item-trabalho">
+                    <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260915-WA0038.webp"
+                         alt="Barba & Acabamento" loading="lazy">
+                    <p class="nome-trabalho">💈 Barba & Acabamento</p>
+                </div>
+            </div>
+
+            <div class="caixa-servicos">
+                <div class="servico">
+                    <div class="servico-nome"><span class="dourado">✂️</span> Corte Social</div>
+                    <div class="preco-circulo">A definir</div>
+                </div>
+                <div class="servico">
+                    <div class="servico-nome"><span class="dourado">🧔</span> Barba</div>
+                    <div class="preco-circulo">A definir</div>
+                </div>
+                <div class="servico">
+                    <div class="servico-nome"><span class="dourado">✨</span> Corte + Barba</div>
+                    <div class="preco-circulo">A definir</div>
+                </div>
+                <div class="servico">
+                    <div class="servico-nome"><span class="dourado">💈</span> Degradê / Acabamento</div>
+                    <div class="preco-circulo">A definir</div>
+                </div>
+            </div>
+
+            <div class="area-contato">
+                <div class="img-baixo">
+                    <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260915-WA0038.webp" alt="Gabriel do Corte">
+                </div>
+                <div class="botao-wpp">
+                    <a href="https://wa.me/553195934536" target="_blank">
+                        💬 WhatsApp<br><small>Agende seu horário ✂️</small>
+                    </a>
+                </div>
+            </div>
+
+            <div class="destaques">
+                <div><span class="dourado">✂️</span> Estilo</div>
+                <div><span class="dourado">💈</span> Qualidade</div>
+                <div><span class="dourado">⏰</span> Pontualidade</div>
+            </div>
+
+            <div class="em-breve">
+                <p>📸 Novidades em breve</p>
+                <p>⏰ Horários — em atualização</p>
+            </div>
+
+            <p class="rodape">💈 Gabriel do Corte — Todos os direitos reservados © 2026</p>
+
+            <div class="botao-acesso-total">
+                <a href="gerenciar.html">🔐 Área Administrativa</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 📋 DADOS EXCLUSIVOS — GABRIEL DO CORTE
+        const CAMINHO_ACESSOS = "gabriel_do_corte/acessos";
+        const CHAVE_ID = "idVisitante_gabriel";
+        const CHAVE_NOME = "nomeVisitante_gabriel";
+        const CHAVE_SESSAO_ATIVA = "sessao_ativa_gabriel";
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCjUBVWJ7f9A8hQXWBhWjLfWxgJ9lhh1YI",
+            authDomain: "gabriel-do-corte.firebaseapp.com",
+            databaseURL: "https://gabriel-do-corte-default-rtdb.firebaseio.com",
+            projectId: "gabriel-do-corte",
+            storageBucket: "gabriel-do-corte.firebasestorage.app",
+            messagingSenderId: "877270325019",
+            appId: "1:877270325019:web:8d75ee1b905a1b8f16a5be"
+        };
+
+        // Inicializar Firebase
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // Gerar ID único
+        function gerarIdUnico() {
+            const p1 = Math.random().toString(36).slice(2, 6);
+            const p2 = Math.random().toString(36).slice(2, 6);
+            return `usr_${p1}${p2}`;
+        }
+
+        // Recuperar ou criar ID do visitante
+        let ID_VISITANTE = localStorage.getItem(CHAVE_ID);
+        if (!ID_VISITANTE) {
+            ID_VISITANTE = gerarIdUnico();
+            localStorage.setItem(CHAVE_ID, ID_VISITANTE);
+        }
+
+        // Data formatada
+        function dataAtual() {
+            return new Date().toLocaleString('pt-BR', {
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+        }
+
+        // Verificar nova sessão
+        function ehNovaSessao() {
+            if (!sessionStorage.getItem(CHAVE_SESSAO_ATIVA)) {
+                sessionStorage.setItem(CHAVE_SESSAO_ATIVA, 'sim');
+                return true;
+            }
+            return false;
+        }
+
+        // Salvar nome do visitante
+        async function salvarNome() {
+            const nome = document.getElementById('campoNome').value.trim();
+            if (!nome) {
+                alert("💈 Digite seu nome para a gente te conhecer!");
+                return;
+            }
+            
+            localStorage.setItem(CHAVE_NOME, nome);
+            const ref = db.ref(`${CAMINHO_ACESSOS}/${ID_VISITANTE}`);
+            await ref.update({ nome: nome });
+            
+            document.getElementById('blocoNova').style.display = 'none';
+            document.getElementById('nomePessoa').textContent = nome;
+            document.getElementById('blocoConhecida').style.display = 'block';
+        }
+
+        // Fechar caixa sem digitar
+        function fecharCaixa() {
+            document.getElementById('caixaMensagem').classList.add('oculta');
+        }
+
+        // Definir qual mensagem mostrar
+        async function definirMensagem() {
+            let nomeSalvo = localStorage.getItem(CHAVE_NOME);
+            
+            if (!nomeSalvo) {
+                const snap = await db.ref(`${CAMINHO_ACESSOS}/${ID_VISITANTE}`).once("value");
+                const dados = snap.val();
+                if (dados && dados.nome) {
+                    nomeSalvo = dados.nome;
+                    localStorage.setItem(CHAVE_NOME, nomeSalvo);
+                }
+            }
+            
+            if (nomeSalvo) {
+                document.getElementById('nomePessoa').textContent = nomeSalvo;
+                document.getElementById('blocoConhecida').style.display = 'block';
+            } else {
+                document.getElementById('blocoNova').style.display = 'block';
+            }
+        }
+
+        // Registrar acesso no banco
+        async function registrarAcesso() {
+            const novaVisita = ehNovaSessao();
+            const ref = db.ref(`${CAMINHO_ACESSOS}/${ID_VISITANTE}`);
+            const snap = await ref.once("value");
+            const dados = snap.val() || {};
+            const agora = dataAtual();
+
+            await ref.update({
+                id: ID_VISITANTE,
+                nome: dados.nome || "",
+                acessos: novaVisita ? (dados.acessos || 0) + 1 : (dados.acessos || 0),
+                primeiroAcesso: dados.primeiroAcesso || agora,
+                ultimoAcesso: agora
+            });
+        }
+
+        // Inicializar tudo
+        window.onload = async function() {
+            await definirMensagem();
+            await registrarAcesso();
+        };
+    </script>
+</body>
+</html>
