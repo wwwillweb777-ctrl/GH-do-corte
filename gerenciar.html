@@ -306,13 +306,22 @@
         }
 
         .botao-voltar {
-            background: transparent;
-            color: #000000;
-            border: none;
-            padding: 0;
-            font-size: 0.95rem;
-            font-weight: normal;
-        }
+    background: #ffffff;       /* Fundo BRANCO */
+    color: #000000;            /* Texto PRETO (melhor leitura) */
+    border: none;
+    padding: 0.7rem 1.2rem;    /* Fica maior e mais visível */
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.botao-voltar:before {
+    content: "← ";
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+        
 
         .botao-voltar:before {
             content: "← ";
