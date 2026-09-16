@@ -42,10 +42,9 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center top; /* ✅ Só isso: mostra a cabeça inteira */
+            object-position: center top;
             display: block;
         }
-        /* BOTÃO EXATAMENTE COMO VOCÊ FEZ */
         .botao-chat-principal {
             text-align: center;
             margin: 0.5rem 0 0.8rem;
@@ -74,6 +73,7 @@
         }
         .icone-balao { font-size: 1.1rem; }
         .dourado { color: #d4af37; }
+        .verde { color: #25D366; }
         .conteudo-interno { padding: 0 1.5rem 1.5rem; }
         .titulo { text-align: center; margin-bottom: 0.5rem; }
         .titulo-principal {
@@ -92,9 +92,9 @@
             text-transform: uppercase;
             font-size: 0.9rem;
         }
-        .faixa-destaque {
-            background: linear-gradient(90deg, #d4af37, #f4d03f);
-            color: #000;
+        .faixa-gratis {
+            background: linear-gradient(90deg, #25D366, #00A884);
+            color: #fff;
             padding: 0.9rem 2rem;
             border-radius: 50px;
             font-weight: bold;
@@ -103,7 +103,8 @@
             position: relative;
             left: 50%; transform: translateX(-50%);
             margin-bottom: 2rem;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+            text-align: center;
         }
         .galeria-titulo {
             text-align: center;
@@ -162,7 +163,9 @@
             justify-content: space-between; 
             align-items: center; 
             padding: 0.9rem 0; 
+            border-bottom: 1px dashed #333;
         }
+        .servico:last-child { border-bottom: none; }
         .servico-nome { 
             display: flex; 
             align-items: center; 
@@ -172,18 +175,20 @@
             font-size: 1.15rem;
         }
         .preco-circulo {
-            width: 75px; 
-            height: 75px; 
-            border: 2px solid #d4af37; 
+            width: 90px; 
+            height: 90px; 
+            border: 2px solid #25D366; 
             border-radius: 50%;
-            background: #222; 
+            background: rgba(37, 211, 102, 0.1); 
             display: flex; 
+            flex-direction: column;
             align-items: center; 
             justify-content: center;
-            color: #f4d03f; 
+            color: #25D366; 
             font-weight: bold;
-            font-size: 0.95rem;
         }
+        .valor-gratis { font-size: 0.9rem; }
+        .gratis-texto { font-size: 0.7rem; opacity: 0.8; }
         .destaques { 
             display: flex; 
             justify-content: space-around; 
@@ -192,13 +197,23 @@
             color: #999; 
             font-size: 1rem; 
         }
-        .em-breve { 
-            border: 2px dashed #d4af37; 
-            border-radius: 20px; 
-            padding: 1.5rem; 
-            text-align: center; 
-            color: #999; 
-            margin-bottom: 1rem; 
+        .aviso-gratis {
+            background: rgba(37, 211, 102, 0.08);
+            border: 1px solid #25D366;
+            border-radius: 16px;
+            padding: 1.2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .aviso-gratis h4 {
+            color: #25D366;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .aviso-gratis p {
+            color: #ccc;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
         .rodape { 
             text-align: center; 
@@ -234,7 +249,6 @@
         </div>
 
         <div class="conteudo-interno">
-            <!-- BOTÃO EXATAMENTE COMO O SEU -->
             <div class="botao-chat-principal">
                 <a href="chat.html">
                     <span class="icone-balao">💬</span>
@@ -247,7 +261,8 @@
                 <h2 class="titulo-sub">DO CORTE</h2>
                 <p class="sub-titulo"><span class="dourado">✂️</span> BARBEARIA & ESTILO <span class="dourado">💈</span></p>
             </div>
-            <p class="faixa-destaque">Estilo e precisão em cada corte ✨</p>
+
+            <p class="faixa-gratis">🎉 TODOS OS CORTES TOTALMENTE GRATUITOS! 🎉</p>
 
             <div class="galeria-titulo">
                 <h3>Nossos Trabalhos</h3>
@@ -268,26 +283,52 @@
                 <div class="item-trabalho">
                     <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260915-WA0038.webp"
                          alt="Barba & Acabamento" loading="lazy">
-                    <p class="nome-trabalho">💈 Na régua 📐</p>
+                    <p class="nome-trabalho">📐 Na régua — Precisão total</p>
                 </div>
+            </div>
+
+            <div class="aviso-gratis">
+                <h4>✨ Inauguração — Cortes Grátis ✨</h4>
+                <p>Estou iniciando no bairro e para celebrar, todos os serviços estão sendo oferecidos de forma totalmente gratuita.<br>
+                Qualidade, estilo e dedicação — sem custo para você! 💈✨<br>
+                Garanta seu horário pelo chat, as vagas são limitadas!</p>
             </div>
 
             <div class="caixa-servicos">
                 <div class="servico">
                     <div class="servico-nome"><span class="dourado">✂️</span> Corte Social</div>
-                    <div class="preco-circulo">A definir</div>
+                    <div class="preco-circulo">
+                        <span class="valor-gratis">R$ 00,00</span>
+                        <span class="gratis-texto">GRÁTIS</span>
+                    </div>
                 </div>
                 <div class="servico">
                     <div class="servico-nome"><span class="dourado">🧔</span> Barba</div>
-                    <div class="preco-circulo">A definir</div>
+                    <div class="preco-circulo">
+                        <span class="valor-gratis">R$ 00,00</span>
+                        <span class="gratis-texto">GRÁTIS</span>
+                    </div>
                 </div>
                 <div class="servico">
                     <div class="servico-nome"><span class="dourado">✨</span> Corte + Barba</div>
-                    <div class="preco-circulo">A definir</div>
+                    <div class="preco-circulo">
+                        <span class="valor-gratis">R$ 00,00</span>
+                        <span class="gratis-texto">GRÁTIS</span>
+                    </div>
                 </div>
                 <div class="servico">
                     <div class="servico-nome"><span class="dourado">💈</span> Degradê</div>
-                    <div class="preco-circulo">A definir</div>
+                    <div class="preco-circulo">
+                        <span class="valor-gratis">R$ 00,00</span>
+                        <span class="gratis-texto">GRÁTIS</span>
+                    </div>
+                </div>
+                <div class="servico">
+                    <div class="servico-nome"><span class="dourado">📐</span> Na Régua</div>
+                    <div class="preco-circulo">
+                        <span class="valor-gratis">R$ 00,00</span>
+                        <span class="gratis-texto">GRÁTIS</span>
+                    </div>
                 </div>
             </div>
 
@@ -297,9 +338,9 @@
                 <div><span class="dourado">⏰</span> Pontualidade</div>
             </div>
 
-            <div class="em-breve">
-                <p>💬 Tire suas dúvidas e faça orçamentos pelo chat</p>
-                <p>📅 Agende diretamente aqui no site ✂️</p>
+            <div class="em-breve" style="border: 2px dashed #d4af37; border-radius: 20px; padding: 1.5rem; text-align: center; color: #999; margin-bottom: 1rem;">
+                <p>💬 Tire suas dúvidas e agende pelo chat</p>
+                <p>📅 Vagas limitadas — garanta a sua! ✂️</p>
             </div>
 
             <p class="rodape">💈 Gabriel do Corte — Todos os direitos reservados © 2026</p>
@@ -311,7 +352,7 @@
     </div>
 
     <script>
-     const firebaseConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyCjUBVWJ7f9A8hQXWBhWjLfWxgJ9lhh1YI",
             authDomain: "gabriel-do-corte.firebaseapp.com",
             databaseURL: "https://gabriel-do-corte-default-rtdb.firebaseio.com",
