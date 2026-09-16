@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área Administrativa — Gabriel do Corte ✂️💈</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
+            background-image: 
+                radial-gradient(#2a2a2a 1px, transparent 1px),
+                radial-gradient(#2a2a2a 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 1rem;
+            color: #fff;
+        }
+
+        .caixa-principal {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 1rem 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #d4af37;
+            font-size: 2rem;
+            font-family: Georgia, serif;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #f4d03f;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .escondido { display: none !important; }
+
+        /* === TELA DE LOGIN === */
+        .tela-login-card {
+            max-width: 420px;
+            margin: 3rem auto;
+            background: #000;
+            border-radius: 28px;
+            border: 4px solid #d4af37;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
+        }
+
+        .grupo-senha {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid #d4af37;
+            border-radius: 16px;
+            font-size: 1rem;
+            outline: none;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #f4d03f;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+        }
+
+        .botao-olho {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        button {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:active { transform: scale(0.98); }
+
+        .btn-principal {
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            color: white;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .btn-sair {
+            background: linear-gradient(90deg, #e53935, #f4511e);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-verde { 
+            background: linear-gradient(90deg, #25D366, #128C7E); 
+            color: white; 
+        }
+        .btn-vermelho { 
+            background: linear-gradient(90deg, #ef5350, #e53935); 
+            color: white; 
+        }
+        .btn-dourado {
+            background: linear-gradient(90deg, #d4af37, #f4d03f);
+            color: #000;
+        }
+        .btn-laranja {
+            background: linear-gradient(90deg, #ff7043, #e64a19);
+            color: white;
+        }
+
+        .aviso-erro {
+            color: #ff6b6b;
+            background: #2c1515;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #ef5350;
+        }
+
+        .cabecalho-tela {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* === TELA LISTA GERAL === */
+        .info-topo {
+            color: #d4af37;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bloco-pessoa {
+            margin-bottom: 1.5rem;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 2px solid #d4af37;
+            background: #111;
+        }
+
+        .cabecalho-pessoa {
+            background: linear-gradient(90deg, #d4af37, #f4d03f);
+            color: #000;
+            padding: 1.2rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .dados-pessoa {
+            padding: 1.2rem;
+        }
+
+        .linha-dado {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 50px;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .etq-id { background: #1e3a5f; color: #90caf9; }
+        .etq-acessos { background: #4a3f00; color: #ffd54f; }
+        .etq-data { background: #3a2a4f; color: #ce93d8; }
+
+        .botoes-pessoa {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .botoes-pessoa button {
+            flex: 1;
+            padding: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .botoes-geral {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .botoes-geral button { width: 100%; }
+
+        .vazio {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #999;
+        }
+
+        /* === TELA CHAT INDIVIDUAL === */
+        .tela-chat {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 40px);
+            border: 3px solid #d4af37;
+            border-radius: 24px;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .chat-cabecalho {
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            color: white;
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-nome-usuario {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .chat-conteudo {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background: #0a0a0a;
+        }
+
+        .bolha-usuario {
+            background: #25D366;
+            color: white;
+            padding: 1rem 1.3rem;
+            border-radius: 24px 24px 24px 8px;
+            margin-bottom: 1rem;
+            max-width: 85%;
+        }
+
+        .bolha-admin {
+            background: #1f1f1f;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 1rem 1.3rem;
+            border-radius: 24px 24px 8px 24px;
+            margin-bottom: 1rem;
+            margin-left: auto;
+            max-width: 85%;
+        }
+
+        .bolha-nome {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            opacity: 0.9;
+        }
+
+        .bolha-texto {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 0.3rem;
+        }
+
+        .bolha-data {
+            font-size: 0.75rem;
+            opacity: 0.75;
+        }
+
+        .chat-entrada {
+            padding: 1rem;
+            border-top: 2px solid #333;
+        }
+
+        .chat-entrada textarea {
+            border-radius: 20px;
+            resize: none;
+            margin-bottom: 0.8rem;
+        }
+
+        .chat-botao-enviar {
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .botao-voltar {
+            background: transparent;
+            color: #d4af37;
+            border: none;
+            padding: 0;
+            font-size: 0.95rem;
+            font-weight: normal;
+        }
+
+        .botao-voltar:before {
+            content: "← ";
+        }
+
+        .status-bolinha {
+            display: inline-block;
+            padding: 0.25rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .pendente { background: #4a3f00; color: #ffd54f; }
+        .respondida { background: #1b5e20; color: #c8e6c9; }
+
+        @media (max-width: 480px) {
+            .bolha-usuario, .bolha-admin {
+                max-width: 92%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TELA DE LOGIN -->
+    <div id="telaLogin" class="caixa-principal">
+        <div class="tela-login-card">
+            <h1>🔐 Área Administrativa</h1>
+            <p class="subtitulo">✂️ Gabriel do Corte 💈</p>
+
+            <div class="grupo-senha">
+                <input type="password" id="campoSenha" placeholder="Digite a senha..." autocomplete="off">
+                <button type="button" class="botao-olho" onclick="alternarVisibilidade()">🙈</button>
+            </div>
+
+            <p id="avisoErro" class="aviso-erro escondido">❌ Senha incorreta!</p>
+
+            <button class="btn-principal" onclick="verificarSenha()">🔐 Entrar</button>
+
+            <div style="text-align:center; margin-top:1.5rem;">
+                <a href="index.html" style="color:#d4af37; text-decoration:none;">← Voltar para o site</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA LISTA GERAL -->
+    <div id="telaLista" class="caixa-principal escondido">
+        <div class="cabecalho-tela">
+            <h1 style="justify-content:flex-start;">💬 Mensagens</h1>
+            <button class="btn-sair" onclick="sair()">🚪 Sair</button>
+        </div>
+
+        <p class="info-topo">
+            <span style="background:#1e3a5f; padding:0.2rem 0.6rem; border-radius:50px; font-size:0.8rem; font-weight:bold;">ID</span>
+            = identificador único &nbsp;|&nbsp; 👁️ = quantidade de visitas
+        </p>
+
+        <div id="lista-usuarios"></div>
+
+        <div class="botoes-geral">
+            <button class="btn-vermelho" onclick="if(confirm('Apagar TODAS as mensagens?\\nDados de visitas serão MANTIDOS!')) limparTodasMensagens()">🗑️ Limpar Todas as Mensagens</button>
+        </div>
+    </div>
+
+    <!-- TELA CHAT INDIVIDUAL -->
+    <div id="telaChat" class="caixa-principal escondido">
+        <div class="tela-chat">
+            <div class="chat-cabecalho">
+                <button class="botao-voltar" onclick="fecharChat()">Voltar</button>
+                <span class="chat-nome-usuario" id="chatNomeCabecalho"></span>
+                <span style="font-size:0.8rem; opacity:0.8;" id="chatIdCabecalho"></span>
+            </div>
+
+            <div class="chat-conteudo" id="chatConteudo"></div>
+
+            <div class="chat-entrada">
+                <textarea id="chatResposta" rows="3" placeholder="Escreva sua mensagem... ✂️💈"></textarea>
+                <button class="btn-verde chat-botao-enviar" onclick="enviarRespostaChat()">📤 Enviar Mensagem</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ⚙️ CONFIGURAÇÕES DO GABRIEL DO CORTE
+        const SENHA_ADMIN = "Gabriel123"; // ← Você pode alterar!
+        const CAMINHO_MSG = "gabriel_do_corte/mensagens";
+        const CAMINHO_ACESSOS = "gabriel_do_corte/acessos";
+
+        // 🔌 FIREBASE DO SEU PROJETO
+        const firebaseConfig = {
+            apiKey: "AIzaSyCjUBVWJ7f9A8hQXWBhWjLfWxgJ9lhh1YI",
+            authDomain: "gabriel-do-corte.firebaseapp.com",
+            databaseURL: "https://gabriel-do-corte-default-rtdb.firebaseio.com",
+            projectId: "gabriel-do-corte",
+            storageBucket: "gabriel-do-corte.firebasestorage.app",
+            messagingSenderId: "877270325019",
+            appId: "1:877270325019:web:8d75ee1b905a1b8f16a5be"
+        };
+
+        let db = null;
+        let todosUsuarios = {};
+        let usuarioAtual = null;
+
+        if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.database();
+        }
+
+        function dataAtual() {
+            return new Date().toLocaleString('pt-BR');
+        }
+
+        let senhaVisivel = false;
+        function alternarVisibilidade() {
+            const campo = document.getElementById('campoSenha');
+            const botao = document.querySelector('.botao-olho');
+            senhaVisivel = !senhaVisivel;
+            campo.type = senhaVisivel ? 'text' : 'password';
+            botao.textContent = senhaVisivel ? '👁️' : '🙈';
+        }
+
+        function verificarSenha() {
+            const digitada = document.getElementById('campoSenha').value.trim();
+            if (digitada === SENHA_ADMIN) {
+                document.getElementById('telaLogin').classList.add('escondido');
+                document.getElementById('telaLista').classList.remove('escondido');
+                carregarListaGeral();
+            } else {
+                document.getElementById('avisoErro').classList.remove('escondido');
+                document.getElementById('campoSenha').value = '';
+            }
+        }
+
+        function sair() {
+            if (!confirm("Sair da área administrativa?")) return;
+            document.getElementById('telaLista').classList.add('escondido');
+            document.getElementById('telaChat').classList.add('escondido');
+            document.getElementById('telaLogin').classList.remove('escondido');
+            document.getElementById('avisoErro').classList.add('escondido');
+            document.getElementById('campoSenha').value = '';
+            senhaVisivel = false;
+            usuarioAtual = null;
+        }
+
+        // === CARREGAR LISTA GERAL ===
+        async function carregarListaGeral() {
+            if (!db) {
+                document.getElementById('lista-usuarios').innerHTML = 
+                    '<div class="vazio"><p>⚠️ Firebase não carregou. Atualize a página.</p></div>';
+                return;
+            }
+
+            const snapAcessos = await db.ref(CAMINHO_ACESSOS).once("value");
+            const snapMensagens = await db.ref(CAMINHO_MSG).once("value");
+
+            const acessos = snapAcessos.val() || {};
+            const mensagens = snapMensagens.val() || {};
+            todosUsuarios = {};
+            const container = document.getElementById('lista-usuarios');
+            container.innerHTML = '';
+
+            if (!snapAcessos.exists() && !snapMensagens.exists()) {
+                container.innerHTML = '<div class="vazio"><p>📭 Nenhuma mensagem ainda</p></div>';
+                return;
+            }
+
+            const porId = {};
+            for (const chave in mensagens) {
+                const m = mensagens[chave];
+                if (!m.idRemetente) continue;
+                if (!porId[m.idRemetente]) porId[m.idRemetente] = [];
+                porId[m.idRemetente].push({ chave, ...m });
+            }
+
+            for (const id in { ...acessos, ...porId }) {
+                const p = acessos[id] || {};
+                const mensagensUser = porId[id] || [];
+                const nome = p.nome || (mensagensUser[0]?.nomeRemetente) || "Visitante";
+                
+                todosUsuarios[id] = {
+                    id,
+                    nome,
+                    acessos: p.acessos || 0,
+                    primeiroAcesso: p.primeiroAcesso || "—",
+                    ultimoAcesso: p.ultimoAcesso || "—",
+                    dadosAcesso: p,
+                    mensagens: mensagensUser
+                };
+
+                const u = todosUsuarios[id];
+                const temResposta = mensagensUser.some(m => m.resposta);
+
+                container.innerHTML += `
+                    <div class="bloco-pessoa">
+                        <div class="cabecalho-pessoa">${u.nome}</div>
+                        <div class="dados-pessoa">
+                            <div class="linha-dado etq-id">🆔 ${u.id}</div>
+                            <div class="linha-dado etq-acessos">👁️ ${u.acessos} visitas</div>
+                            <div class="linha-dado etq-data">📅 1ª visita: ${u.primeiroAcesso}</div>
+                            <div class="linha-dado etq-data">🕘 Última visita: ${u.ultimoAcesso}</div>
+                            <div class="linha-dado ${temResposta ? 'respondida' : 'pendente'}">
+                                ${temResposta ? '✅ Respondida' : '⏳ Pendente'}
+                            </div>
+                        </div>
+                        <div class="botoes-pessoa">
+                            <button class="btn-dourado" onclick="abrirChatPorId('${id}')">💬 Abrir Chat</button>
+                            <button class="btn-laranja" onclick="apagarVisualizacoes('${id}')">🗑️ Visualizações</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // === ABRIR CHAT INDIVIDUAL ===
+        function abrirChatPorId(idUsuario) {
+            if (!todosUsuarios[idUsuario]) {
+                alert("Usuário não encontrado!");
+                return;
+            }
+
+            usuarioAtual = todosUsuarios[idUsuario];
+            
+            document.getElementById('telaLista').classList.add('escondido');
+            document.getElementById('telaChat').classList.remove('escondido');
+
+            document.getElementById('chatNomeCabecalho').textContent = usuarioAtual.nome;
+            document.getElementById('chatIdCabecalho').textContent = `🆔 ${usuarioAtual.id}`;
+
+            carregarMensagensChat();
+        }
+
+        function carregarMensagensChat() {
+            const conteudo = document.getElementById('chatConteudo');
+            conteudo.innerHTML = '';
+
+            if (!usuarioAtual.mensagens.length) {
+                conteudo.innerHTML = '<p style="text-align:center; color:#999; padding:2rem;">Nenhuma mensagem ainda 💬</p>';
+                return;
+            }
+
+            usuarioAtual.mensagens.forEach(m => {
+                conteudo.innerHTML += `
+                    <div class="bolha-usuario">
+                        <div class="bolha-nome">${usuarioAtual.nome}</div>
+                        <div class="bolha-texto">${m.texto}</div>
+                        <div class="bolha-data">${m.data || ''}</div>
+                    </div>
+                `;
+
+                if (m.resposta) {
+                    conteudo.innerHTML += `
+                        <div class="bolha-admin">
+                            <div class="bolha-nome">📩 Gabriel do Corte ✂️💈</div>
+                            <div class="bolha-texto">${m.resposta}</div>
+                            <div class="bolha-data">${m.dataResposta || ''}</div>
+                        </div>
+                    `;
+                } else {
+                    conteudo.innerHTML += `<div class="status-bolinha pendente">⏳ Pendente</div>`;
+                }
+            });
+
+            conteudo.scrollTop = conteudo.scrollHeight;
+        }
+
+        function fecharChat() {
+            usuarioAtual = null;
+            document.getElementById('telaChat').classList.add('escondido');
+            document.getElementById('telaLista').classList.remove('escondido');
+            carregarListaGeral();
+        }
+
+        async function enviarRespostaChat() {
+            if (!usuarioAtual || !db) return;
+
+            const texto = document.getElementById('chatResposta').value.trim();
+            if (!texto) {
+                alert("Escreva sua mensagem! ✍️");
+                return;
+            }
+
+            const msgPendente = usuarioAtual.mensagens.find(m => !m.resposta);
+            
+            if (!msgPendente) {
+                alert("Todas as mensagens já foram respondidas! ✅");
+                document.getElementById('chatResposta').value = '';
+                return;
+            }
+
+            await db.ref(`${CAMINHO_MSG}/${msgPendente.chave}`).update({
+                resposta: texto,
+                dataResposta: dataAtual()
+            });
+
+            alert("✅ Mensagem enviada!");
+            document.getElementById('chatResposta').value = '';
+            
+            await carregarListaGeral();
+            abrirChatPorId(usuarioAtual.id);
+        }
+
+        async function apagarVisualizacoes(id) {
+            if (!confirm(`Apagar visualizações de ${todosUsuarios[id]?.nome || id}?\\nMensagens serão MANTIDAS!`)) return;
+            if (!db) return;
+            await db.ref(`${CAMINHO_ACESSOS}/${id}`).remove();
+            alert("✅ Visualizações apagadas!");
+            carregarListaGeral();
+        }
+
+        async function limparTodasMensagens() {
+            if (!confirm("APAGAR TODAS AS MENSAGENS?\\nDados de visitas serão mantidos!")) return;
+            if (!db) return;
+            await db.ref(CAMINHO_MSG).remove();
+            alert("✅ Todas as mensagens foram apagadas!");
+            carregarListaGeral();
+        }
+    </script>
+</body>
+</html>
