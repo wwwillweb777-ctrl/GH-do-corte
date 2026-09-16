@@ -410,6 +410,19 @@
             return new Date().toLocaleString('pt-BR');
         }
 
+        // 🔧 Converte data "dia/mês/ano, hora:minuto" para número
+        function parseDataPtBr(texto) {
+            if (!texto) return 0;
+            try {
+                const [parteData, parteHora] = texto.split(', ');
+                const [dia, mes, ano] = parteData.split('/').map(Number);
+                const [h, m] = parteHora.split(':').map(Number);
+                return new Date(ano, mes - 1, dia, h, m).getTime();
+            } catch {
+                return 0;
+            }
+        }
+
         let senhaVisivel = false;
         function alternarVisibilidade() {
             const campo = document.getElementById('campoSenha');
@@ -533,13 +546,6 @@
                     }
                 }
 
-                // ✅ ORDENA PELA DATA — MAIS ANTIGA PRIMEIRO
-                mensagensFiltradas.sort((a, b) => {
-                    const dataA = new Date(a.data ? a.data.replace(/\//g, '-').replace(/(\d+)\s+(\d+)/, '$1T$2') : 0);
-                    const dataB = new Date(b.data ? b.data.replace(/\//g, '-').replace(/(\d+)\s+(\d+)/, '$1T$2') : 0);
-                    return dataA - dataB;
-                });
-
                 usuarioAtual.mensagens = mensagensFiltradas;
                 carregarMensagens();
             });
@@ -554,31 +560,60 @@
                 return;
             }
 
-            usuarioAtual.mensagens.forEach(m => {
-                // Mensagem do cliente
-                conteudo.innerHTML += `
-                    <div class="bolha-usuario">
-                        <div class="bolha-nome">${usuarioAtual.nome}</div>
-                        <div class="bolha-texto">${m.texto}</div>
-                        <div class="bolha-data">${m.data || ''}</div>
-                    </div>
-                `;
+            // ✅ Cria lista combinada: mensagem do cliente + resposta como entrada separada
+            const listaOrdenada = [];
 
-                // Resposta do admin — LOGO ABAIXO da mensagem do cliente
+            usuarioAtual.mensagens.forEach(m => {
+                // Mensagem da cliente
+                listaOrdenada.push({
+                    tipo: 'cliente',
+                    nome: usuarioAtual.nome,
+                    texto: m.texto,
+                    dataStr: m.data,
+                    dataNum: parseDataPtBr(m.data),
+                    temResposta: !!m.resposta
+                });
+
+                // Resposta do admin — com a DATA DA RESPOSTA
                 if (m.resposta) {
-                    conteudo.innerHTML += `
-                        <div class="bolha-admin">
-                            <div class="bolha-nome">📩 Gabriel do Corte ✂️💈</div>
-                            <div class="bolha-texto">${m.resposta}</div>
-                            <div class="bolha-data">${m.dataResposta || ''}</div>
-                        </div>
-                    `;
-                } else {
-                    conteudo.innerHTML += `<div class="status-bolinha pendente">⏳ Pendente</div>`;
+                    listaOrdenada.push({
+                        tipo: 'admin',
+                        nome: '📩 Gabriel do Corte ✂️💈',
+                        texto: m.resposta,
+                        dataStr: m.dataResposta,
+                        dataNum: parseDataPtBr(m.dataResposta)
+                    });
                 }
             });
 
-            // ✅ VAI SEMPRE PRA ÚLTIMA MENSAGEM — EMBAIXO
+            // ✅ ORDENA TUDO PELA DATA — cliente e resposta juntos
+            listaOrdenada.sort((a, b) => a.dataNum - b.dataNum);
+
+            // ✅ Exibe na ordem correta
+            listaOrdenada.forEach(item => {
+                if (item.tipo === 'cliente') {
+                    conteudo.innerHTML += `
+                        <div class="bolha-usuario">
+                            <div class="bolha-nome">${item.nome}</div>
+                            <div class="bolha-texto">${item.texto}</div>
+                            <div class="bolha-data">${item.dataStr || ''}</div>
+                        </div>
+                    `;
+                    if (!item.temResposta) {
+                        conteudo.innerHTML += `<div class="status-bolinha pendente">⏳ Pendente</div>`;
+                    }
+                } else {
+                    conteudo.innerHTML += `
+                        <div class="bolha-admin">
+                            <div class="bolha-nome">${item.nome}</div>
+                            <div class="bolha-texto">${item.texto}</div>
+                            <div class="bolha-data">${item.dataStr || ''}</div>
+                        </div>
+                    `;
+                }
+            });
+
+            // ✅ Vai direto pra última mensagem — sempre embaixo
             conteudo.scrollTop = conteudo.scrollHeight;
         }
 
