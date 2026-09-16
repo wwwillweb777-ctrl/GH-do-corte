@@ -130,10 +130,6 @@
             background: linear-gradient(90deg, #d4af37, #f4d03f);
             color: #000;
         }
-        .btn-laranja {
-            background: linear-gradient(90deg, #ff7043, #e64a19);
-            color: white;
-        }
 
         .aviso-erro {
             color: #ff6b6b;
@@ -151,16 +147,7 @@
             margin-bottom: 1.5rem;
         }
 
-        /* === TELA LISTA GERAL === */
-        .info-topo {
-            color: #d4af37;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
+        /* === LISTA DE CONVERSAS === */
         .bloco-pessoa {
             margin-bottom: 1.5rem;
             border-radius: 24px;
@@ -192,8 +179,18 @@
         }
 
         .etq-id { background: #1e3a5f; color: #90caf9; }
-        .etq-acessos { background: #4a3f00; color: #ffd54f; }
-        .etq-data { background: #3a2a4f; color: #ce93d8; }
+
+        .status-bolinha {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .pendente { background: #4a3f00; color: #ffd54f; }
+        .respondida { background: #1b5e20; color: #c8e6c9; }
 
         .botoes-pessoa {
             display: flex;
@@ -222,7 +219,7 @@
             color: #999;
         }
 
-        /* === TELA CHAT INDIVIDUAL === */
+        /* === TELA CHAT === */
         .tela-chat {
             display: flex;
             flex-direction: column;
@@ -321,18 +318,6 @@
             content: "← ";
         }
 
-        .status-bolinha {
-            display: inline-block;
-            padding: 0.25rem 0.7rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-top: 0.5rem;
-        }
-
-        .pendente { background: #4a3f00; color: #ffd54f; }
-        .respondida { background: #1b5e20; color: #c8e6c9; }
-
         @media (max-width: 480px) {
             .bolha-usuario, .bolha-admin {
                 max-width: 92%;
@@ -363,22 +348,17 @@
         </div>
     </div>
 
-    <!-- TELA LISTA GERAL -->
+    <!-- LISTA DE CONVERSAS -->
     <div id="telaLista" class="caixa-principal escondido">
         <div class="cabecalho-tela">
-            <h1 style="justify-content:flex-start;">💬 Mensagens</h1>
+            <h1 style="justify-content:flex-start;">💬 Conversas</h1>
             <button class="btn-sair" onclick="sair()">🚪 Sair</button>
         </div>
-
-        <p class="info-topo">
-            <span style="background:#1e3a5f; padding:0.2rem 0.6rem; border-radius:50px; font-size:0.8rem; font-weight:bold;">ID</span>
-            = identificador único &nbsp;|&nbsp; 👁️ = quantidade de visitas
-        </p>
 
         <div id="lista-usuarios"></div>
 
         <div class="botoes-geral">
-            <button class="btn-vermelho" onclick="if(confirm('Apagar TODAS as mensagens?\\nDados de visitas serão MANTIDOS!')) limparTodasMensagens()">🗑️ Limpar Todas as Mensagens</button>
+            <button class="btn-vermelho" onclick="if(confirm('Apagar TODAS as mensagens?')) limparTodasMensagens()">🗑️ Limpar Todas as Mensagens</button>
         </div>
     </div>
 
@@ -401,12 +381,11 @@
     </div>
 
     <script>
-        // ⚙️ CONFIGURAÇÕES DO GABRIEL DO CORTE
-        const SENHA_ADMIN = "Gabriel123"; // ← Você pode alterar!
+        // ⚙️ CONFIGURAÇÕES
+        const SENHA_ADMIN = "Gabriel123";
         const CAMINHO_MSG = "gabriel_do_corte/mensagens";
-        const CAMINHO_ACESSOS = "gabriel_do_corte/acessos";
 
-        // 🔌 FIREBASE DO SEU PROJETO
+        // 🔌 FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyCjUBVWJ7f9A8hQXWBhWjLfWxgJ9lhh1YI",
             authDomain: "gabriel-do-corte.firebaseapp.com",
@@ -418,7 +397,7 @@
         };
 
         let db = null;
-        let todosUsuarios = {};
+        let conversas = {};
         let usuarioAtual = null;
 
         if (typeof firebase !== 'undefined' && !firebase.apps.length) {
@@ -444,7 +423,7 @@
             if (digitada === SENHA_ADMIN) {
                 document.getElementById('telaLogin').classList.add('escondido');
                 document.getElementById('telaLista').classList.remove('escondido');
-                carregarListaGeral();
+                carregarConversas();
             } else {
                 document.getElementById('avisoErro').classList.remove('escondido');
                 document.getElementById('campoSenha').value = '';
@@ -462,28 +441,26 @@
             usuarioAtual = null;
         }
 
-        // === CARREGAR LISTA GERAL ===
-        async function carregarListaGeral() {
+        // === CARREGAR LISTA DE CONVERSAS ===
+        async function carregarConversas() {
             if (!db) {
                 document.getElementById('lista-usuarios').innerHTML = 
                     '<div class="vazio"><p>⚠️ Firebase não carregou. Atualize a página.</p></div>';
                 return;
             }
 
-            const snapAcessos = await db.ref(CAMINHO_ACESSOS).once("value");
             const snapMensagens = await db.ref(CAMINHO_MSG).once("value");
-
-            const acessos = snapAcessos.val() || {};
             const mensagens = snapMensagens.val() || {};
-            todosUsuarios = {};
+            conversas = {};
             const container = document.getElementById('lista-usuarios');
             container.innerHTML = '';
 
-            if (!snapAcessos.exists() && !snapMensagens.exists()) {
+            if (!snapMensagens.exists()) {
                 container.innerHTML = '<div class="vazio"><p>📭 Nenhuma mensagem ainda</p></div>';
                 return;
             }
 
+            // Agrupa mensagens por usuário
             const porId = {};
             for (const chave in mensagens) {
                 const m = mensagens[chave];
@@ -492,71 +469,56 @@
                 porId[m.idRemetente].push({ chave, ...m });
             }
 
-            for (const id in { ...acessos, ...porId }) {
-                const p = acessos[id] || {};
-                const mensagensUser = porId[id] || [];
-                const nome = p.nome || (mensagensUser[0]?.nomeRemetente) || "Visitante";
-                
-                todosUsuarios[id] = {
+            for (const id in porId) {
+                const mensagensUser = porId[id];
+                const nome = mensagensUser[0]?.nomeRemetente || "Visitante";
+                const temResposta = mensagensUser.some(m => m.resposta);
+
+                conversas[id] = {
                     id,
                     nome,
-                    acessos: p.acessos || 0,
-                    primeiroAcesso: p.primeiroAcesso || "—",
-                    ultimoAcesso: p.ultimoAcesso || "—",
-                    dadosAcesso: p,
                     mensagens: mensagensUser
                 };
 
-                const u = todosUsuarios[id];
-                const temResposta = mensagensUser.some(m => m.resposta);
-
                 container.innerHTML += `
                     <div class="bloco-pessoa">
-                        <div class="cabecalho-pessoa">${u.nome}</div>
+                        <div class="cabecalho-pessoa">${nome}</div>
                         <div class="dados-pessoa">
-                            <div class="linha-dado etq-id">🆔 ${u.id}</div>
-                            <div class="linha-dado etq-acessos">👁️ ${u.acessos} visitas</div>
-                            <div class="linha-dado etq-data">📅 1ª visita: ${u.primeiroAcesso}</div>
-                            <div class="linha-dado etq-data">🕘 Última visita: ${u.ultimoAcesso}</div>
-                            <div class="linha-dado ${temResposta ? 'respondida' : 'pendente'}">
+                            <div class="linha-dado etq-id">🆔 ${id}</div>
+                            <div class="status-bolinha ${temResposta ? 'respondida' : 'pendente'}">
                                 ${temResposta ? '✅ Respondida' : '⏳ Pendente'}
                             </div>
                         </div>
                         <div class="botoes-pessoa">
-                            <button class="btn-dourado" onclick="abrirChatPorId('${id}')">💬 Abrir Chat</button>
-                            <button class="btn-laranja" onclick="apagarVisualizacoes('${id}')">🗑️ Visualizações</button>
+                            <button class="btn-dourado" onclick="abrirChat('${id}')">💬 Abrir Chat</button>
+                            <button class="btn-vermelho" onclick="apagarConversa('${id}')">🗑️ Apagar</button>
                         </div>
                     </div>
                 `;
             }
         }
 
-        // === ABRIR CHAT INDIVIDUAL ===
-        function abrirChatPorId(idUsuario) {
-            if (!todosUsuarios[idUsuario]) {
-                alert("Usuário não encontrado!");
+        // === ABRIR CHAT ===
+        function abrirChat(idUsuario) {
+            if (!conversas[idUsuario]) {
+                alert("Conversa não encontrada!");
                 return;
             }
 
-            usuarioAtual = todosUsuarios[idUsuario];
+            usuarioAtual = conversas[idUsuario];
             
             document.getElementById('telaLista').classList.add('escondido');
             document.getElementById('telaChat').classList.remove('escondido');
 
             document.getElementById('chatNomeCabecalho').textContent = usuarioAtual.nome;
-            document.getElementById('chatIdCabecalho').textContent = `🆔 ${usuarioAtual.id}`;
+            document.getElementById('chatIdCabecalho').textContent = `🆔 ${idUsuario}`;
 
-            carregarMensagensChat();
+            carregarMensagens();
         }
 
-        function carregarMensagensChat() {
+        function carregarMensagens() {
             const conteudo = document.getElementById('chatConteudo');
             conteudo.innerHTML = '';
-
-            if (!usuarioAtual.mensagens.length) {
-                conteudo.innerHTML = '<p style="text-align:center; color:#999; padding:2rem;">Nenhuma mensagem ainda 💬</p>';
-                return;
-            }
 
             usuarioAtual.mensagens.forEach(m => {
                 conteudo.innerHTML += `
@@ -587,7 +549,7 @@
             usuarioAtual = null;
             document.getElementById('telaChat').classList.add('escondido');
             document.getElementById('telaLista').classList.remove('escondido');
-            carregarListaGeral();
+            carregarConversas();
         }
 
         async function enviarRespostaChat() {
@@ -615,24 +577,29 @@
             alert("✅ Mensagem enviada!");
             document.getElementById('chatResposta').value = '';
             
-            await carregarListaGeral();
-            abrirChatPorId(usuarioAtual.id);
+            await carregarConversas();
+            abrirChat(usuarioAtual.id);
         }
 
-        async function apagarVisualizacoes(id) {
-            if (!confirm(`Apagar visualizações de ${todosUsuarios[id]?.nome || id}?\\nMensagens serão MANTIDAS!`)) return;
+        async function apagarConversa(id) {
+            if (!confirm(`Apagar conversa com ${conversas[id]?.nome || id}?`)) return;
             if (!db) return;
-            await db.ref(`${CAMINHO_ACESSOS}/${id}`).remove();
-            alert("✅ Visualizações apagadas!");
-            carregarListaGeral();
+            
+            const mensagensParaApagar = conversas[id].mensagens.map(m => m.chave);
+            for (const chave of mensagensParaApagar) {
+                await db.ref(`${CAMINHO_MSG}/${chave}`).remove();
+            }
+            
+            alert("✅ Conversa apagada!");
+            carregarConversas();
         }
 
         async function limparTodasMensagens() {
-            if (!confirm("APAGAR TODAS AS MENSAGENS?\\nDados de visitas serão mantidos!")) return;
+            if (!confirm("APAGAR TUDO? Essa ação não pode ser desfeita!")) return;
             if (!db) return;
             await db.ref(CAMINHO_MSG).remove();
             alert("✅ Todas as mensagens foram apagadas!");
-            carregarListaGeral();
+            carregarConversas();
         }
     </script>
 </body>
