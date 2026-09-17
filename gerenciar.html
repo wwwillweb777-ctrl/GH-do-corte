@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área Administrativa — Gabriel do Corte ✂️💈</title>
+    <title>Área Administrativa — GH do Corte ✂️💈</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
     <style>
@@ -306,25 +306,20 @@
         }
 
         .botao-voltar {
-    background: #ffffff;       /* Fundo BRANCO */
-    color: #000000;            /* Texto PRETO (melhor leitura) */
-    border: none;
-    padding: 0.7rem 1.2rem;    /* Fica maior e mais visível */
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 50px;
-    cursor: pointer;
-}
-
-.botao-voltar:before {
-    content: "← ";
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-        
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+        }
 
         .botao-voltar:before {
             content: "← ";
+            font-size: 1.2rem;
+            font-weight: bold;
         }
 
         @media (max-width: 480px) {
@@ -340,7 +335,7 @@
     <div id="telaLogin" class="caixa-principal">
         <div class="tela-login-card">
             <h1>🔐 Área Administrativa</h1>
-            <p class="subtitulo">✂️ Gabriel do Corte 💈</p>
+            <p class="subtitulo">✂️ GH do Corte 💈</p>
 
             <div class="grupo-senha">
                 <input type="password" id="campoSenha" placeholder="Digite a senha..." autocomplete="off">
@@ -390,11 +385,14 @@
     </div>
 
     <script>
-        // ⚙️ CONFIGURAÇÕES
+        // ⚙️ CONFIGURAÇÕES — NÃO MEXIDO
         const SENHA_ADMIN = "Gabriel123";
         const CAMINHO_MSG = "gabriel_do_corte/mensagens";
 
-        // 🔌 FIREBASE
+        // ✅ Nome visível ao usuário
+        const NOME_ADMIN_EXIBIR = "GH do Corte ✂️💈";
+
+        // 🔌 FIREBASE — INTACTO
         const firebaseConfig = {
             apiKey: "AIzaSyCjUBVWJ7f9A8hQXWBhWjLfWxgJ9lhh1YI",
             authDomain: "gabriel-do-corte.firebaseapp.com",
@@ -587,7 +585,7 @@
                 if (m.resposta) {
                     listaOrdenada.push({
                         tipo: 'admin',
-                        nome: '📩 Gabriel do Corte ✂️💈',
+                        nome: '📩 ' + NOME_ADMIN_EXIBIR,
                         texto: m.resposta,
                         dataStr: m.dataResposta,
                         dataNum: parseDataPtBr(m.dataResposta)
