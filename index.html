@@ -375,7 +375,7 @@
         window.onload = async function() {
             if (!sessionStorage.getItem(CHAVE_SESSAO)) {
                 sessionStorage.setItem(CHAVE_SESSAO, 'ativa');
-                const ref = db.ref("gabriel_do_corte/visitas");
+                const ref = db.ref("GH/visitas");
                 const snap = await ref.once("value");
                 const total = snap.val() || 0;
                 await ref.set(total + 1);
