@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GH ✂️💈</title>
+    <title>GH do Corte ✂️💈</title>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
@@ -82,8 +82,19 @@
             font-family: Georgia, serif;
             letter-spacing: 3px;
             font-weight: bold;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.5rem;
         }
-        .titulo-sub { font-size: 1.4rem; font-family: sans-serif; color: #ccc; font-weight: 500; }
+        .titulo-principal .inicial {
+            font-size: 3.2rem;
+        }
+        .titulo-principal .complemento {
+            font-size: 1.8rem;
+            color: #fff;
+            letter-spacing: 1px;
+        }
         .sub-titulo { 
             text-align: center; 
             color: #999; 
@@ -237,7 +248,9 @@
         @media (max-width: 380px) {
             .galeria { grid-template-columns: 1fr; }
             .item-trabalho img { height: 170px; }
-            .titulo-principal { font-size: 2.2rem; }
+            .titulo-principal { font-size: 2rem; }
+            .titulo-principal .inicial { font-size: 2.4rem; }
+            .titulo-principal .complemento { font-size: 1.4rem; }
             .logo-topo { height: 300px; }
         }
     </style>
@@ -245,7 +258,7 @@
 <body>
     <div class="cartaz">
         <div class="logo-topo">
-            <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/logo.webp" alt="Gabriel do Corte ✂️💈">
+            <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/logo.webp" alt="GH do Corte ✂️💈">
         </div>
 
         <div class="conteudo-interno">
@@ -257,8 +270,10 @@
             </div>
 
             <div class="titulo">
-                <h1 class="titulo-principal">G</h1>
-                <h2 class="titulo-sub">H</h2>
+                <h1 class="titulo-principal">
+                    <span class="inicial dourado">GH</span>
+                    <span class="complemento">do Corte</span>
+                </h1>
                 <p class="sub-titulo"><span class="dourado">✂️</span> BARBEARIA & ESTILO <span class="dourado">💈</span></p>
             </div>
 
@@ -272,7 +287,7 @@
             <div class="galeria">
                 <div class="item-trabalho">
                     <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260916-WA0002.webp"
-                         alt="Gabriel do Corte" loading="lazy">
+                         alt="GH do Corte" loading="lazy">
                     <p class="nome-trabalho">💈 Destaque</p>
                 </div>
                 <div class="item-trabalho">
@@ -343,7 +358,7 @@
                 <p>📅 Vagas limitadas — garanta a sua! ✂️</p>
             </div>
 
-            <p class="rodape">💈 Gabriel do Corte — Todos os direitos reservados © 2026</p>
+            <p class="rodape">💈 GH do Corte — Todos os direitos reservados © 2026</p>
 
             <div class="botao-acesso-total">
                 <a href="gerenciar.html">🔐 Área Administrativa</a>
@@ -364,7 +379,7 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        const CHAVE_SESSAO = "sessao_gabriel";
+        const CHAVE_SESSAO = "sessao_gh";
         function dataAtual() {
             return new Date().toLocaleString('pt-BR', {
                 day: '2-digit', month: '2-digit', year: 'numeric',
