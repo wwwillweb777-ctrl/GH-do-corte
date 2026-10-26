@@ -32,7 +32,6 @@
             box-shadow: 0 0 25px rgba(244, 169, 0, 0.25);
             position: relative;
         }
-        /* 📍 MENU ABAIXADO ~200% — de 10% para 30% */
         .menu-lateral {
             position: absolute;
             top: 30%;
@@ -73,8 +72,9 @@
             display: block;
             margin-top: 0;
         }
+        /* ✅ Texto subiu 15% — mais compacto */
         .conteudo-interno {
-            padding: 0.5rem 1.5rem 1.2rem;
+            padding: 0.3rem 1.5rem 1rem;
             text-align: center;
         }
         .mensagem-principal {
@@ -86,7 +86,11 @@
         }
         .mensagem-sub {
             font-size: 0.95rem;
-            color: #ccc;
+            color: #ff3333; /* ✅ Vermelho na mensagem */
+        }
+        .menu-cor-verde {
+            color: #39ff14; /* ✅ MENU em verde */
+            font-weight: bold;
         }
         .menu-overlay {
             display: none;
@@ -146,7 +150,6 @@
 </head>
 <body>
     <div class="cartaz">
-        <!-- 📍 Menu desceu 200% — agora em top: 30% -->
         <div class="menu-lateral">
             <div class="botao-menu-lateral">
                 <button onclick="abrirMenu()">📋 MENU</button>
@@ -159,15 +162,16 @@
 
         <img class="imagem-principal" src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/Serginho.jpg" alt="Serginho Cabeção">
 
+        <!-- ✅ Imagem quebrada REMOVIDA -->
         <div class="conteudo-interno">
             <p class="mensagem-principal">👑 Bem-vindo ao Fã Clube do Serginho Cabeção</p>
-            <p class="mensagem-sub">Clique no <span style="color:#39ff14; font-weight:bold;">MENU</span> ao lado para acessar tudo! 🐸</p>
+            <p class="mensagem-sub">Clique no <span class="menu-cor-verde">MENU</span> acima para acessar tudo! 🐸</p>
         </div>
     </div>
 
-    <!-- Menu Overlay -->
-    <div id="menuOverlay" class="menu-overlay" onclick="fecharMenuFora(event)">
-        <div class="menu-conteudo" onclick="event.stopPropagation()">
+    <!-- ✅ Agora só fecha clicando no botão X -->
+    <div id="menuOverlay" class="menu-overlay">
+        <div class="menu-conteudo">
             <h2>🐸 Fã Clube — Menu</h2>
             
             <a href="chat.html" class="menu-opcao">💬 Conversar / Chat</a>
@@ -209,9 +213,7 @@
             document.getElementById('menuOverlay').classList.remove('aberto');
             document.body.style.overflow = 'auto';
         }
-        function fecharMenuFora(event) {
-            if (event.target.id === 'menuOverlay') fecharMenu();
-        }
+        // ✅ Removido o fechamento ao clicar fora
     </script>
 </body>
 </html>
