@@ -49,39 +49,42 @@
             height: auto;
             display: block;
             margin-top: 0;
+
+            /* ✅ Imagem 100% estática */
+            position: static;
+            transform: none;
+            animation: none;
         }
         .conteudo-interno {
             padding: 0.5rem 1.5rem 1rem;
             text-align: center;
         }
-        .mensagem-principal {
-            font-size: 1.25rem;
-            color: #f4a900;
-            font-family: Georgia, serif;
-            letter-spacing: 1px;
-            margin-bottom: 0.8rem;
-        }
-        .mensagem-sub {
-            font-size: 1rem;
+
+        /* ✅ Texto "Clique no" aumentado cerca de 50% */
+        .texto-clique-no {
+            font-size: 1.5rem;
             color: #ff3333;
         }
+
         .menu-botao-inferior {
             background: #39ff14;
             color: #000;
             border: none;
             padding: 0.4rem 1rem;
+
+            /* ✅ Botão MENU fica do tamanho normal */
             font-size: 1rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 0 12px #39ff14;
-            transition: all 0.3s ease;
+            transition: none;
             vertical-align: middle;
             margin-left: 0.4rem;
         }
         .menu-botao-inferior:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px #39ff14;
+            transform: none;
+            box-shadow: 0 0 12px #39ff14;
         }
         .menu-overlay {
             display: none;
@@ -121,12 +124,14 @@
             background: #222;
             border-radius: 12px;
             font-size: 1.1rem;
-            transition: all 0.2s ease;
+            transition: none;
         }
         .menu-opcao:hover {
             background: #333;
             color: #39ff14;
         }
+
+        /* ✅ Botão Fechar piscando entre vermelho, amarelo, azul claro e branco */
         .fechar-menu {
             margin-top: 1.5rem;
             background: transparent;
@@ -136,6 +141,30 @@
             border-radius: 50px;
             cursor: pointer;
             font-size: 1rem;
+            animation: piscarCor 1.2s infinite alternate;
+        }
+
+        @keyframes piscarCor {
+            0% {
+                border-color: #ff0000;
+                color: #ff0000;
+                box-shadow: 0 0 8px #ff0000;
+            }
+            33% {
+                border-color: #f4a900;
+                color: #f4a900;
+                box-shadow: 0 0 8px #f4a900;
+            }
+            66% {
+                border-color: #00bfff;
+                color: #00bfff;
+                box-shadow: 0 0 8px #00bfff;
+            }
+            100% {
+                border-color: #ffffff;
+                color: #ffffff;
+                box-shadow: 0 0 8px #ffffff;
+            }
         }
     </style>
 </head>
@@ -148,8 +177,9 @@
         <img class="imagem-principal" src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/Serginho.jpg" alt="">
 
         <div class="conteudo-interno">
-            <p class="mensagem-sub">
-                Clique no
+            <!-- ✅ Apenas o texto "Clique no" aumentado em ~50% -->
+            <p>
+                <span class="texto-clique-no">Clique no</span>
                 <button class="menu-botao-inferior" onclick="abrirMenu()">📋 MENU</button>
             </p>
         </div>
