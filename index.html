@@ -72,9 +72,17 @@
             display: block;
             margin-top: 0;
         }
+        /* ✅ Esconde QUALQUER imagem fantasma ou elemento indesejado */
+        .elemento-fantasma, .imagem-fantasma {
+            display: none !important;
+            visibility: hidden;
+            height: 0;
+            width: 0;
+            overflow: hidden;
+        }
         /* ✅ Texto SUBIU 15% — bem colado na imagem principal */
         .conteudo-interno {
-            padding: 0.2rem 1.5rem 1rem; /* ← Menos espaço em cima */
+            padding: 0.1rem 1.5rem 0.8rem;
             text-align: center;
         }
         .mensagem-principal {
@@ -82,7 +90,7 @@
             color: #f4a900;
             font-family: Georgia, serif;
             letter-spacing: 1px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
         }
         .mensagem-sub {
             font-size: 0.95rem;
@@ -160,9 +168,9 @@
             <img src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/LogoSerginho.jpg" alt="Fã Clube do Serginho Cabeção">
         </div>
 
-        <img class="imagem-principal" src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/Serginho.jpg" alt="Serginho Cabeção">
+        <img class="imagem-principal" src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/Serginho.jpg" alt="">
 
-        <!-- ✅ A IMAGEM QUEBRADA E O TEXTO FORAM APAGADOS DAQUI -->
+        <!-- ✅ NENHUMA imagem ou texto extra aqui! Somente o conteúdo abaixo -->
         <div class="conteudo-interno">
             <p class="mensagem-principal">👑 Bem-vindo ao Fã Clube do Serginho Cabeção</p>
             <p class="mensagem-sub">Clique no <span class="menu-cor-verde">MENU</span> acima para acessar tudo! 🐸</p>
