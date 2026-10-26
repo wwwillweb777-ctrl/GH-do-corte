@@ -34,7 +34,6 @@
         .logo-topo {
             width: 100%;
             height: auto;
-            overflow: visible;
             display: block;
         }
         .logo-topo img {
@@ -43,166 +42,97 @@
             display: block;
             object-fit: contain;
         }
-        .botao-chat-principal {
+        .conteudo-interno {
+            padding: 2rem 1.5rem 3rem;
             text-align: center;
-            margin: 1rem 0;
-            padding: 0 0.5rem;
         }
-        .botao-chat-principal a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.4rem;
-            background: linear-gradient(90deg, #f4a900, #d48806);
+        .mensagem-ajuda {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+        .seta-baixo {
+            font-size: 2rem;
+            color: #39ff14;
+            margin-bottom: 1.5rem;
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+        .botao-menu {
+            margin-bottom: 2rem;
+        }
+        .botao-menu button {
+            background: #39ff14;
             color: #000;
-            padding: 0.7rem 1.6rem;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: bold;
             border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            box-shadow: 0 0 15px rgba(244, 169, 0, 0.4);
+            cursor: pointer;
+            box-shadow: 0 0 20px #39ff14, 0 0 40px rgba(57, 255, 20, 0.4);
             transition: all 0.3s ease;
         }
-        .botao-chat-principal a:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 20px rgba(244, 169, 0, 0.55);
+        .botao-menu button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px #39ff14, 0 0 60px rgba(57, 255, 20, 0.6);
         }
-        .icone-balao { font-size: 1.1rem; }
-        .dourado { color: #f4a900; }
-        .verde { color: #4ade80; }
-        .conteudo-interno { padding: 0 1.5rem 1.5rem; }
-        .titulo { text-align: center; margin-bottom: 0.5rem; }
-        .titulo-principal {
-            font-size: 2.5rem;
-            color: #f4a900;
-            font-family: Georgia, serif;
-            letter-spacing: 2px;
-            font-weight: bold;
-            line-height: 1.2;
-        }
-        .sub-titulo { 
-            text-align: center; 
-            color: #ccc; 
-            letter-spacing: 2px; 
-            margin: 0.5rem 0 1.5rem; 
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-        .faixa-destaque {
-            background: linear-gradient(90deg, #4ade80, #22c55e);
-            color: #000;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
-        }
-        .galeria-titulo {
-            text-align: center;
-            margin: 1.5rem 0 1rem;
-        }
-        .galeria-titulo h3 {
-            color: #f4a900;
-            font-size: 1.8rem;
-            font-family: Georgia, serif;
-            position: relative;
-            display: inline-block;
-        }
-        .galeria-titulo h3::before,
-        .galeria-titulo h3::after {
-            content: '👑';
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .galeria-titulo h3::before { left: -35px; }
-        .galeria-titulo h3::after { right: -35px; }
-        .galeria {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 1rem 0 2rem;
-        }
-        .item-trabalho {
-            display: flex;
-            flex-direction: column;
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 999;
+            justify-content: center;
             align-items: center;
         }
-        .item-trabalho img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 20px;
-            border: 2px solid #f4a900;
+        .menu-overlay.aberto {
+            display: flex;
         }
-        .nome-trabalho {
-            margin-top: 0.7rem;
-            color: #f4a900;
-            font-weight: 600;
-            font-size: 1rem;
+        .menu-conteudo {
+            background: #111;
+            border: 3px solid #f4a900;
+            border-radius: 24px;
+            padding: 2.5rem;
             text-align: center;
+            max-width: 350px;
+            width: 90%;
         }
-        .caixa-servicos {
-            border: 2px solid #f4a900; 
-            border-radius: 24px; 
-            padding: 1.8rem; 
-            margin-bottom: 1.5rem; 
-            background: #110c05;
+        .menu-conteudo h2 {
+            color: #f4a900;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
         }
-        .servico { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 0.9rem 0; 
-            border-bottom: 1px dashed #333;
-        }
-        .servico:last-child { border-bottom: none; }
-        .servico-nome { 
-            display: flex; 
-            align-items: center; 
-            gap: 0.7rem; 
-            font-weight: 600; 
-            color: #f4a900; 
-            font-size: 1.15rem;
-        }
-        .preco-circulo {
-            width: 90px; 
-            height: 90px; 
-            border: 2px solid #4ade80; 
-            border-radius: 50%;
-            background: rgba(74, 222, 128, 0.1); 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            justify-content: center;
-            color: #4ade80; 
-            font-weight: bold;
-        }
-        .rodape { 
-            text-align: center; 
-            color: #666; 
-            font-size: 0.9rem; 
-            margin-bottom: 1rem; 
-        }
-        .botao-acesso-total { 
-            text-align: center; 
-            margin-top: 1rem; 
-        }
-        .botao-acesso-total a {
-            display: inline-block; 
-            background: linear-gradient(90deg, #f4a900, #b8860b);
-            color: #000; 
-            padding: 0.7rem 2.5rem; 
-            border-radius: 50px; 
-            font-weight: bold; 
+        .menu-opcao {
+            display: block;
+            color: #fff;
             text-decoration: none;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: #222;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
         }
-        @media (max-width: 380px) {
-            .galeria { grid-template-columns: 1fr; }
-            .item-trabalho img { height: 170px; }
-            .titulo-principal { font-size: 2rem; }
+        .menu-opcao:hover {
+            background: #333;
+            color: #39ff14;
+        }
+        .fechar-menu {
+            margin-top: 1.5rem;
+            background: transparent;
+            border: 2px solid #f4a900;
+            color: #f4a900;
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
         }
     </style>
 </head>
@@ -213,75 +143,24 @@
         </div>
 
         <div class="conteudo-interno">
-            <div class="botao-chat-principal">
-                <a href="chat.html">
-                    <span class="icone-balao">💬</span>
-                    <span>Converse com a gente! 🐸</span>
-                </a>
+            <p class="mensagem-ajuda">👇 Clique abaixo para ver tudo!</p>
+            <div class="seta-baixo">⬇️</div>
+            
+            <div class="botao-menu">
+                <button onclick="abrirMenu()">📋 MENU</button>
             </div>
+        </div>
+    </div>
 
-            <div class="titulo">
-                <h1 class="titulo-principal">Fã Clube do Serginho Cabeção</h1>
-                <p class="sub-titulo"><span class="dourado">👑</span> O REI DA TORCIDA <span class="dourado">🐸</span></p>
-            </div>
-
-            <p class="faixa-destaque">🔥 APOIE E COMPARTILHE! JUNTOS SOMOS MAIS FORTES! 🔥</p>
-
-            <div class="galeria-titulo">
-                <h3>Nosso Ídolo</h3>
-                <p class="sub-titulo">QUEM É REI NUNCA PERDE A MAJESTADE 👑✨</p>
-            </div>
-
-            <div class="galeria">
-                <div class="item-trabalho">
-                    <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260916-WA0002.webp"
-                         alt="Serginho Cabeção" loading="lazy">
-                    <p class="nome-trabalho">👑 O Nosso Líder</p>
-                </div>
-                <div class="item-trabalho">
-                    <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260915-WA0037.webp"
-                         alt="Força Serginho" loading="lazy">
-                    <p class="nome-trabalho">💪 Força Serginho!</p>
-                </div>
-                <div class="item-trabalho">
-                    <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260915-WA0038.webp"
-                         alt="Torcida Fiel" loading="lazy">
-                    <p class="nome-trabalho">❤️ Torcida Fiel</p>
-                </div>
-            </div>
-
-            <div class="caixa-servicos">
-                <div class="servico">
-                    <div class="servico-nome"><span class="dourado">👑</span> Apoiar o Serginho</div>
-                    <div class="preco-circulo">
-                        <span>💛 Sempre!</span>
-                    </div>
-                </div>
-                <div class="servico">
-                    <div class="servico-nome"><span class="dourado">📢</span> Compartilhar</div>
-                    <div class="preco-circulo">
-                        <span>✨ Espalhe!</span>
-                    </div>
-                </div>
-                <div class="servico">
-                    <div class="servico-nome"><span class="dourado">💬</span> Deixar sua mensagem</div>
-                    <div class="preco-circulo">
-                        <span>📝 No chat</span>
-                    </div>
-                </div>
-                <div class="servico">
-                    <div class="servico-nome"><span class="dourado">🐸</span> Fazer parte da família</div>
-                    <div class="preco-circulo">
-                        <span>❤️ Bem-vindo!</span>
-                    </div>
-                </div>
-            </div>
-
-            <p class="rodape">🐸 Fã Clube do Serginho Cabeção — Todos os direitos reservados © 2026</p>
-
-            <div class="botao-acesso-total">
-                <a href="gerenciar.html">🔐 Área Administrativa</a>
-            </div>
+    <!-- Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay" onclick="fecharMenuFora(event)">
+        <div class="menu-conteudo" onclick="event.stopPropagation()">
+            <h2>🐸 Fã Clube — Menu</h2>
+            
+            <a href="chat.html" class="menu-opcao">💬 Conversar / Chat</a>
+            <a href="gerenciar.html" class="menu-opcao">🔐 Área Administrativa</a>
+            
+            <button class="fechar-menu" onclick="fecharMenu()">✖️ Fechar</button>
         </div>
     </div>
 
@@ -315,6 +194,21 @@
                 await ref.set(total + 1);
             }
         };
+
+        // Funções do Menu
+        function abrirMenu() {
+            document.getElementById('menuOverlay').classList.add('aberto');
+            document.body.style.overflow = 'hidden';
+        }
+        function fecharMenu() {
+            document.getElementById('menuOverlay').classList.remove('aberto');
+            document.body.style.overflow = 'auto';
+        }
+        function fecharMenuFora(event) {
+            if (event.target.id === 'menuOverlay') {
+                fecharMenu();
+            }
+        }
     </script>
 </body>
 </html>
