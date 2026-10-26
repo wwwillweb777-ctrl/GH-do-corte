@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GH do Corte ✂️💈</title>
+    <title>Fã Clube do Serginho Cabeção 🐸👑</title>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
@@ -12,10 +12,10 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             min-height: 100vh;
-            background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
+            background: linear-gradient(180deg, #1a1208 0%, #2c1e0f 100%);
             background-image: 
-                radial-gradient(#2a2a2a 1px, transparent 1px),
-                radial-gradient(#2a2a2a 1px, transparent 1px);
+                radial-gradient(#3a2a18 1px, transparent 1px),
+                radial-gradient(#3a2a18 1px, transparent 1px);
             background-size: 20px 20px;
             background-position: 0 0, 10px 10px;
             font-family: 'Segoe UI', sans-serif;
@@ -27,9 +27,9 @@
             margin: 0 auto;
             background: #000;
             border-radius: 24px;
-            border: 3px solid #d4af37;
+            border: 3px solid #f4a900;
             overflow: hidden;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+            box-shadow: 0 0 25px rgba(244, 169, 0, 0.25);
         }
         .logo-topo {
             width: 100%;
@@ -37,12 +37,13 @@
             overflow: hidden;
             border-bottom-left-radius: 40px;
             border-bottom-right-radius: 40px;
+            background: #8B4513;
         }
         .logo-topo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center top;
+            object-position: center;
             display: block;
         }
         .botao-chat-principal {
@@ -55,57 +56,46 @@
             align-items: center;
             justify-content: center;
             gap: 0.4rem;
-            background: linear-gradient(90deg, #25D366, #00A884);
-            color: #fff;
+            background: linear-gradient(90deg, #f4a900, #d48806);
+            color: #000;
             padding: 0.6rem 1.4rem;
             border-radius: 50px;
             font-weight: 600;
             font-size: 0.9rem;
             text-decoration: none;
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 0 15px rgba(244, 169, 0, 0.4);
             transition: all 0.3s ease;
             width: auto;
             max-width: 85%;
         }
         .botao-chat-principal a:hover {
             transform: scale(1.03);
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.55);
+            box-shadow: 0 0 20px rgba(244, 169, 0, 0.55);
         }
         .icone-balao { font-size: 1.1rem; }
-        .dourado { color: #d4af37; }
-        .verde { color: #25D366; }
+        .dourado { color: #f4a900; }
+        .verde { color: #4ade80; }
         .conteudo-interno { padding: 0 1.5rem 1.5rem; }
         .titulo { text-align: center; margin-bottom: 0.5rem; }
         .titulo-principal {
-            font-size: 2.8rem;
-            color: #d4af37;
+            font-size: 2.2rem;
+            color: #f4a900;
             font-family: Georgia, serif;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             font-weight: bold;
-            display: flex;
-            align-items: baseline;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .titulo-principal .inicial {
-            font-size: 3.2rem;
-        }
-        .titulo-principal .complemento {
-            font-size: 1.8rem;
-            color: #fff;
-            letter-spacing: 1px;
+            line-height: 1.2;
         }
         .sub-titulo { 
             text-align: center; 
-            color: #999; 
-            letter-spacing: 3px; 
+            color: #ccc; 
+            letter-spacing: 2px; 
             margin: 0.5rem 0 1rem; 
             text-transform: uppercase;
             font-size: 0.9rem;
         }
         .faixa-gratis {
-            background: linear-gradient(90deg, #25D366, #00A884);
-            color: #fff;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            color: #000;
             padding: 0.9rem 2rem;
             border-radius: 50px;
             font-weight: bold;
@@ -114,7 +104,7 @@
             position: relative;
             left: 50%; transform: translateX(-50%);
             margin-bottom: 2rem;
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
             text-align: center;
         }
         .galeria-titulo {
@@ -122,7 +112,7 @@
             margin: 1.5rem 0 1rem;
         }
         .galeria-titulo h3 {
-            color: #d4af37;
+            color: #f4a900;
             font-size: 1.8rem;
             font-family: Georgia, serif;
             position: relative;
@@ -130,7 +120,7 @@
         }
         .galeria-titulo h3::before,
         .galeria-titulo h3::after {
-            content: '✨';
+            content: '👑';
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -153,21 +143,21 @@
             height: 150px;
             object-fit: cover;
             border-radius: 20px;
-            border: 2px solid #d4af37;
+            border: 2px solid #f4a900;
         }
         .nome-trabalho {
             margin-top: 0.7rem;
-            color: #d4af37;
+            color: #f4a900;
             font-weight: 600;
             font-size: 1rem;
             text-align: center;
         }
         .caixa-servicos {
-            border: 2px solid #d4af37; 
+            border: 2px solid #f4a900; 
             border-radius: 24px; 
             padding: 1.8rem; 
             margin-bottom: 1.5rem; 
-            background: #111;
+            background: #110c05;
         }
         .servico { 
             display: flex; 
@@ -182,20 +172,20 @@
             align-items: center; 
             gap: 0.7rem; 
             font-weight: 600; 
-            color: #f4d03f; 
+            color: #f4a900; 
             font-size: 1.15rem;
         }
         .preco-circulo {
             width: 90px; 
             height: 90px; 
-            border: 2px solid #25D366; 
+            border: 2px solid #4ade80; 
             border-radius: 50%;
-            background: rgba(37, 211, 102, 0.1); 
+            background: rgba(74, 222, 128, 0.1); 
             display: flex; 
             flex-direction: column;
             align-items: center; 
             justify-content: center;
-            color: #25D366; 
+            color: #4ade80; 
             font-weight: bold;
         }
         .valor-gratis { font-size: 0.9rem; }
@@ -209,15 +199,15 @@
             font-size: 1rem; 
         }
         .aviso-gratis {
-            background: rgba(37, 211, 102, 0.08);
-            border: 1px solid #25D366;
+            background: rgba(74, 222, 128, 0.08);
+            border: 1px solid #4ade80;
             border-radius: 16px;
             padding: 1.2rem;
             text-align: center;
             margin-bottom: 1.5rem;
         }
         .aviso-gratis h4 {
-            color: #25D366;
+            color: #4ade80;
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
         }
@@ -238,7 +228,7 @@
         }
         .botao-acesso-total a {
             display: inline-block; 
-            background: linear-gradient(90deg, #d4af37, #b8860b);
+            background: linear-gradient(90deg, #f4a900, #b8860b);
             color: #000; 
             padding: 0.7rem 2.5rem; 
             border-radius: 50px; 
@@ -248,117 +238,104 @@
         @media (max-width: 380px) {
             .galeria { grid-template-columns: 1fr; }
             .item-trabalho img { height: 170px; }
-            .titulo-principal { font-size: 2rem; }
-            .titulo-principal .inicial { font-size: 2.4rem; }
-            .titulo-principal .complemento { font-size: 1.4rem; }
-            .logo-topo { height: 300px; }
+            .titulo-principal { font-size: 1.8rem; }
+            .logo-topo { height: 280px; }
         }
     </style>
 </head>
 <body>
     <div class="cartaz">
         <div class="logo-topo">
-            <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/logo.webp" alt="GH do Corte ✂️💈">
+            <img src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/LogoSerginho.jpg" alt="Fã Clube do Serginho Cabeção">
         </div>
 
         <div class="conteudo-interno">
             <div class="botao-chat-principal">
                 <a href="chat.html">
                     <span class="icone-balao">💬</span>
-                    <span>Chat, vem bater um papo 😊</span>
+                    <span>Converse com a gente! 🐸</span>
                 </a>
             </div>
 
             <div class="titulo">
-                <h1 class="titulo-principal">
-                    <span class="inicial dourado">GH</span>
-                    <span class="complemento">do Corte</span>
-                </h1>
-                <p class="sub-titulo"><span class="dourado">✂️</span> BARBEARIA & ESTILO <span class="dourado">💈</span></p>
+                <h1 class="titulo-principal">Fã Clube do Serginho Cabeção</h1>
+                <p class="sub-titulo"><span class="dourado">👑</span> O REI DA TORCIDA <span class="dourado">🐸</span></p>
             </div>
 
-            <p class="faixa-gratis">🎉 TODOS OS CORTES TOTALMENTE GRATUITOS! 🎉</p>
+            <p class="faixa-gratis">🔥 APOIE E COMPARTILHE! JUNTOS SOMOS MAIS FORTES! 🔥</p>
 
             <div class="galeria-titulo">
-                <h3>Nossos Trabalhos</h3>
-                <p class="sub-titulo">ESTILO QUE COMBINA COM VOCÊ 💈</p>
+                <h3>Nosso Ídolo</h3>
+                <p class="sub-titulo">QUEM É REI NUNCA PERDE A MAJESTADE 👑✨</p>
             </div>
 
             <div class="galeria">
                 <div class="item-trabalho">
                     <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260916-WA0002.webp"
-                         alt="GH do Corte" loading="lazy">
-                    <p class="nome-trabalho">💈 Destaque</p>
+                         alt="Serginho Cabeção" loading="lazy">
+                    <p class="nome-trabalho">👑 O Nosso Líder</p>
                 </div>
                 <div class="item-trabalho">
                     <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260915-WA0037.webp"
-                         alt="Corte Estilo" loading="lazy">
-                    <p class="nome-trabalho">✂️ Corte Estilo</p>
+                         alt="Força Serginho" loading="lazy">
+                    <p class="nome-trabalho">💪 Força Serginho!</p>
                 </div>
                 <div class="item-trabalho">
                     <img src="https://cdn.jsdelivr.net/gh/wwwillweb777-ctrl/Fotos-Gabriel-do-corte@main/IMG-20260915-WA0038.webp"
-                         alt="Barba & Acabamento" loading="lazy">
-                    <p class="nome-trabalho">📐 Na régua — Precisão total</p>
+                         alt="Torcida Fiel" loading="lazy">
+                    <p class="nome-trabalho">❤️ Torcida Fiel</p>
                 </div>
             </div>
 
             <div class="aviso-gratis">
-                <h4>✨ Inauguração — Cortes Grátis ✨</h4>
-                <p>Estou iniciando no bairro e para celebrar, todos os serviços estão sendo oferecidos de forma totalmente gratuita.<br>
-                Qualidade, estilo e dedicação — sem custo para você! 💈✨<br>
-                Garanta seu horário pelo chat, as vagas são limitadas!</p>
+                <h4>🐸 Bem-vindo ao Fã Clube!</h4>
+                <p>Este é o espaço oficial dos fãs do Serginho Cabeção. Aqui nós nos unimos para apoiar, compartilhar e mostrar que a torcida é grande! 💛💚<br>
+                Participe, deixe sua mensagem no chat e mostre que você está com ele! ✨👑</p>
             </div>
 
             <div class="caixa-servicos">
                 <div class="servico">
-                    <div class="servico-nome"><span class="dourado">✂️</span> Corte Social</div>
+                    <div class="servico-nome"><span class="dourado">👑</span> Apoiar o Serginho</div>
                     <div class="preco-circulo">
-                        <span class="valor-gratis">R$ 00,00</span>
-                        <span class="gratis-texto">GRÁTIS</span>
+                        <span class="valor-gratis">GRÁTIS</span>
+                        <span class="gratis-texto">💛 Sempre!</span>
                     </div>
                 </div>
                 <div class="servico">
-                    <div class="servico-nome"><span class="dourado">🧔</span> Barba</div>
+                    <div class="servico-nome"><span class="dourado">📢</span> Compartilhar</div>
                     <div class="preco-circulo">
-                        <span class="valor-gratis">R$ 00,00</span>
-                        <span class="gratis-texto">GRÁTIS</span>
+                        <span class="valor-gratis">GRÁTIS</span>
+                        <span class="gratis-texto">✨ Espalhe!</span>
                     </div>
                 </div>
                 <div class="servico">
-                    <div class="servico-nome"><span class="dourado">✨</span> Corte + Barba</div>
+                    <div class="servico-nome"><span class="dourado">💬</span> Deixar sua mensagem</div>
                     <div class="preco-circulo">
-                        <span class="valor-gratis">R$ 00,00</span>
-                        <span class="gratis-texto">GRÁTIS</span>
+                        <span class="valor-gratis">GRÁTIS</span>
+                        <span class="gratis-texto">📝 No chat</span>
                     </div>
                 </div>
                 <div class="servico">
-                    <div class="servico-nome"><span class="dourado">💈</span> Degradê</div>
+                    <div class="servico-nome"><span class="dourado">🐸</span> Fazer parte da família</div>
                     <div class="preco-circulo">
-                        <span class="valor-gratis">R$ 00,00</span>
-                        <span class="gratis-texto">GRÁTIS</span>
-                    </div>
-                </div>
-                <div class="servico">
-                    <div class="servico-nome"><span class="dourado">📐</span> Na Régua</div>
-                    <div class="preco-circulo">
-                        <span class="valor-gratis">R$ 00,00</span>
-                        <span class="gratis-texto">GRÁTIS</span>
+                        <span class="valor-gratis">GRÁTIS</span>
+                        <span class="gratis-texto">❤️ Seja bem-vindo!</span>
                     </div>
                 </div>
             </div>
 
             <div class="destaques">
-                <div><span class="dourado">✂️</span> Estilo</div>
-                <div><span class="dourado">💈</span> Qualidade</div>
-                <div><span class="dourado">⏰</span> Pontualidade</div>
+                <div><span class="dourado">👑</span> Lealdade</div>
+                <div><span class="dourado">💪</span> Força</div>
+                <div><span class="dourado">❤️</span> Paixão</div>
             </div>
 
-            <div class="em-breve" style="border: 2px dashed #d4af37; border-radius: 20px; padding: 1.5rem; text-align: center; color: #999; margin-bottom: 1rem;">
-                <p>💬 Tire suas dúvidas e agende pelo chat</p>
-                <p>📅 Vagas limitadas — garanta a sua! ✂️</p>
+            <div class="em-breve" style="border: 2px dashed #f4a900; border-radius: 20px; padding: 1.5rem; text-align: center; color: #999; margin-bottom: 1rem;">
+                <p>💬 Deixe sua mensagem de apoio pelo chat</p>
+                <p>🐸 A torcida está junto! #SerginhoCabeção ✨</p>
             </div>
 
-            <p class="rodape">💈 GH do Corte — Todos os direitos reservados © 2026</p>
+            <p class="rodape">🐸 Fã Clube do Serginho Cabeção — Todos os direitos reservados © 2026</p>
 
             <div class="botao-acesso-total">
                 <a href="gerenciar.html">🔐 Área Administrativa</a>
@@ -390,7 +367,7 @@
         window.onload = async function() {
             if (!sessionStorage.getItem(CHAVE_SESSAO)) {
                 sessionStorage.setItem(CHAVE_SESSAO, 'ativa');
-                const ref = db.ref("GH/visitas");
+                const ref = db.ref("FãClube/visitas");
                 const snap = await ref.once("value");
                 const total = snap.val() || 0;
                 await ref.set(total + 1);
