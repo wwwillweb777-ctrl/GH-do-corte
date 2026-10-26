@@ -32,7 +32,6 @@
             box-shadow: 0 0 25px rgba(244, 169, 0, 0.25);
             position: relative;
         }
-        /* ✅ REMOVIDO o menu lateral que ficava em cima da imagem */
         .logo-topo {
             width: 100%;
             height: auto;
@@ -50,14 +49,9 @@
             height: auto;
             display: block;
             margin-top: 0;
-
-            /* ✅ Imagem agora ESTÁTICA e não mexe mais */
-            position: static;
-            transform: none;
         }
-        /* ✅ Texto inferior subiu 15% e fica bem colado na imagem */
         .conteudo-interno {
-            padding: 0.1rem 1.5rem 0.8rem;
+            padding: 0.5rem 1.5rem 1rem;
             text-align: center;
         }
         .mensagem-principal {
@@ -65,25 +59,25 @@
             color: #f4a900;
             font-family: Georgia, serif;
             letter-spacing: 1px;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.8rem;
         }
         .mensagem-sub {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #ff3333;
         }
         .menu-botao-inferior {
             background: #39ff14;
             color: #000;
             border: none;
-            padding: 0.35rem 0.9rem;
-            font-size: 0.95rem;
+            padding: 0.4rem 1rem;
+            font-size: 1rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 0 12px #39ff14;
             transition: all 0.3s ease;
             vertical-align: middle;
-            margin-left: 0.3rem;
+            margin-left: 0.4rem;
         }
         .menu-botao-inferior:hover {
             transform: scale(1.05);
@@ -147,28 +141,23 @@
 </head>
 <body>
     <div class="cartaz">
-        <!-- ✅ Menu de cima REMOVIDO completamente -->
-
         <div class="logo-topo">
             <img src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/LogoSerginho.jpg" alt="Fã Clube do Serginho Cabeção">
         </div>
 
         <img class="imagem-principal" src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/Serginho.jpg" alt="">
 
-        <!-- ✅ Texto inferior com botão MENU no lugar -->
         <div class="conteudo-interno">
-            <p class="mensagem-principal">👑 Bem-vindo ao Fã Clube do Serginho Cabeção</p>
             <p class="mensagem-sub">
                 Clique no
                 <button class="menu-botao-inferior" onclick="abrirMenu()">📋 MENU</button>
-                acima para acessar tudo! 🐸
             </p>
         </div>
     </div>
 
     <div id="menuOverlay" class="menu-overlay">
         <div class="menu-conteudo">
-            <h2>🐸 Fã Clube — Menu</h2>
+            <h2>🐸 Fã Clube do Serginho Cabeção</h2>
             
             <a href="chat.html" class="menu-opcao">💬 Conversar / Chat</a>
             <a href="gerenciar.html" class="menu-opcao">🔐 Área Administrativa</a>
