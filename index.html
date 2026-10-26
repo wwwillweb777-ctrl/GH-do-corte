@@ -72,9 +72,9 @@
             display: block;
             margin-top: 0;
         }
-        /* ✅ Texto subiu 15% — mais compacto */
+        /* ✅ Texto SUBIU 15% — bem colado na imagem principal */
         .conteudo-interno {
-            padding: 0.3rem 1.5rem 1rem;
+            padding: 0.2rem 1.5rem 1rem; /* ← Menos espaço em cima */
             text-align: center;
         }
         .mensagem-principal {
@@ -86,10 +86,10 @@
         }
         .mensagem-sub {
             font-size: 0.95rem;
-            color: #ff3333; /* ✅ Vermelho na mensagem */
+            color: #ff3333;
         }
         .menu-cor-verde {
-            color: #39ff14; /* ✅ MENU em verde */
+            color: #39ff14;
             font-weight: bold;
         }
         .menu-overlay {
@@ -162,14 +162,13 @@
 
         <img class="imagem-principal" src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/Serginho.jpg" alt="Serginho Cabeção">
 
-        <!-- ✅ Imagem quebrada REMOVIDA -->
+        <!-- ✅ A IMAGEM QUEBRADA E O TEXTO FORAM APAGADOS DAQUI -->
         <div class="conteudo-interno">
             <p class="mensagem-principal">👑 Bem-vindo ao Fã Clube do Serginho Cabeção</p>
             <p class="mensagem-sub">Clique no <span class="menu-cor-verde">MENU</span> acima para acessar tudo! 🐸</p>
         </div>
     </div>
 
-    <!-- ✅ Agora só fecha clicando no botão X -->
     <div id="menuOverlay" class="menu-overlay">
         <div class="menu-conteudo">
             <h2>🐸 Fã Clube — Menu</h2>
@@ -213,7 +212,6 @@
             document.getElementById('menuOverlay').classList.remove('aberto');
             document.body.style.overflow = 'auto';
         }
-        // ✅ Removido o fechamento ao clicar fora
     </script>
 </body>
 </html>
