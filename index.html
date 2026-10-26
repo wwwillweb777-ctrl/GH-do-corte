@@ -32,28 +32,7 @@
             box-shadow: 0 0 25px rgba(244, 169, 0, 0.25);
             position: relative;
         }
-        .menu-lateral {
-            position: absolute;
-            top: 30%;
-            right: 12px;
-            z-index: 10;
-        }
-        .botao-menu-lateral button {
-            background: #39ff14;
-            color: #000;
-            border: none;
-            padding: 0.55rem 1.2rem;
-            font-size: 0.95rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 0 15px #39ff14;
-            transition: all 0.3s ease;
-        }
-        .botao-menu-lateral button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px #39ff14;
-        }
+        /* ✅ REMOVIDO o menu lateral que ficava em cima da imagem */
         .logo-topo {
             width: 100%;
             height: auto;
@@ -71,16 +50,12 @@
             height: auto;
             display: block;
             margin-top: 0;
+
+            /* ✅ Imagem agora ESTÁTICA e não mexe mais */
+            position: static;
+            transform: none;
         }
-        /* ✅ Esconde QUALQUER imagem fantasma ou elemento indesejado */
-        .elemento-fantasma, .imagem-fantasma {
-            display: none !important;
-            visibility: hidden;
-            height: 0;
-            width: 0;
-            overflow: hidden;
-        }
-        /* ✅ Texto SUBIU 15% — bem colado na imagem principal */
+        /* ✅ Texto inferior subiu 15% e fica bem colado na imagem */
         .conteudo-interno {
             padding: 0.1rem 1.5rem 0.8rem;
             text-align: center;
@@ -96,9 +71,23 @@
             font-size: 0.95rem;
             color: #ff3333;
         }
-        .menu-cor-verde {
-            color: #39ff14;
+        .menu-botao-inferior {
+            background: #39ff14;
+            color: #000;
+            border: none;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.95rem;
             font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 12px #39ff14;
+            transition: all 0.3s ease;
+            vertical-align: middle;
+            margin-left: 0.3rem;
+        }
+        .menu-botao-inferior:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #39ff14;
         }
         .menu-overlay {
             display: none;
@@ -158,11 +147,7 @@
 </head>
 <body>
     <div class="cartaz">
-        <div class="menu-lateral">
-            <div class="botao-menu-lateral">
-                <button onclick="abrirMenu()">📋 MENU</button>
-            </div>
-        </div>
+        <!-- ✅ Menu de cima REMOVIDO completamente -->
 
         <div class="logo-topo">
             <img src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/LogoSerginho.jpg" alt="Fã Clube do Serginho Cabeção">
@@ -170,10 +155,14 @@
 
         <img class="imagem-principal" src="https://raw.githubusercontent.com/wwwillweb777-ctrl/faclube-do-serginho-cabecao/main/imagens/Serginho.jpg" alt="">
 
-        <!-- ✅ NENHUMA imagem ou texto extra aqui! Somente o conteúdo abaixo -->
+        <!-- ✅ Texto inferior com botão MENU no lugar -->
         <div class="conteudo-interno">
             <p class="mensagem-principal">👑 Bem-vindo ao Fã Clube do Serginho Cabeção</p>
-            <p class="mensagem-sub">Clique no <span class="menu-cor-verde">MENU</span> acima para acessar tudo! 🐸</p>
+            <p class="mensagem-sub">
+                Clique no
+                <button class="menu-botao-inferior" onclick="abrirMenu()">📋 MENU</button>
+                acima para acessar tudo! 🐸
+            </p>
         </div>
     </div>
 
