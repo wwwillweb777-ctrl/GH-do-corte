@@ -197,10 +197,6 @@
                 alt="Fã Clube" style="width:90px; height:90px; border-radius:50%; border:3px solid #f4a900; object-fit:cover;">
             </div>
 
-            <div class="bloco" style="text-align:center; margin-bottom:0.8rem;">
-                Visualizações 👁️ <span id="contadorVisualizacoes">0</span>
-            </div>
-
             <div class="bloco">
                 <h3>🏆 Destaque da Semana</h3>
                 <p>Participe nas redes sociais e aqui no site. Quem mais interagir terá seu @ e foto em destaque. Ao participar, você autoriza a divulgação.</p>
@@ -232,27 +228,13 @@
 
     <script>
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
 
         window.onload = async function() {
             if (sessionStorage.getItem('manterMenuAberto') === 'sim') {
                 sessionStorage.removeItem('manterMenuAberto');
                 abrirMenu();
             }
-
-            const ref = db.ref("FãClube/visitas");
-            const snap = await ref.once("value");
-            await ref.set((snap.val() || 0) + 1);
-            
-            carregarVisualizacoes();
         };
-
-        function carregarVisualizacoes() {
-            db.ref("FãClube/visitas").on("value", snap => {
-                const el = document.getElementById('contadorVisualizacoes');
-                if (el) el.textContent = snap.val() || 0;
-            });
-        }
 
         function abrirMenu() { document.getElementById('menuOverlay').classList.add('aberto'); }
         function fecharMenu() { document.getElementById('menuOverlay').classList.remove('aberto'); }
